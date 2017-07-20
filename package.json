@@ -6,7 +6,8 @@
   "author": "Stephen Wan <stephen@stephenwan.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc ./lib/** --outDir ./src"
+    "build": "tsc ./lib/** --outDir ./src",
+    "test": "mocha --require ts-node/register test/**/*.spec.ts"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.41",
