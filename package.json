@@ -6,6 +6,7 @@
   "author": "Stephen Wan <stephen@stephenwan.com>",
   "license": "MIT",
   "devDependencies": {
+    "mocha": "^3.4.2",
     "webpack": "^3.3.0"
   },
   "dependencies": {
