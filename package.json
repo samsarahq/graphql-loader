@@ -1,0 +1,8 @@
+{
+  "name": "graphql-loader",
+  "version": "0.0.1",
+  "description": "webpack graphql loader",
+  "main": "index.js",
+  "author": "Stephen Wan <stephen@stephenwan.com>",
+  "license": "MIT"
+}
