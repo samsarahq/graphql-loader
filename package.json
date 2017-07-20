@@ -7,5 +7,9 @@
   "license": "MIT",
   "devDependencies": {
     "webpack": "^3.3.0"
+  },
+  "dependencies": {
+    "graphql": "^0.10.5",
+    "graphql-tag": "^2.4.2"
   }
 }
