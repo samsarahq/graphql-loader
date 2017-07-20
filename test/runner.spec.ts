@@ -36,7 +36,7 @@ describe("loader", function() {
               .readFileSync("/bundle.js")
               .toString();
 
-            resolve(eval(output), stats);
+            resolve(eval(output));
           }
         });
       });

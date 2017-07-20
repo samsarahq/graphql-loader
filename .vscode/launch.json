@@ -15,7 +15,10 @@
         "--timeout",
         "999999",
         "--colors",
-        "${workspaceRoot}/test"
+        "${workspaceRoot}/test",
+        "--require",
+        "ts-node/register",
+        "test/**/*.spec.ts"
       ],
       "internalConsoleOptions": "openOnSessionStart"
     }

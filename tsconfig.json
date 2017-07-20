@@ -1,0 +1,6 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "lib": ["es2015"]
+  }
+}
