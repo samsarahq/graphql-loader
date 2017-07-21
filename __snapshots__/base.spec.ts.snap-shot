@@ -262,37 +262,6 @@ exports['should ignore duplicate an imported fragment 1'] = {
           }
         ]
       }
-    },
-    {
-      "kind": "FragmentDefinition",
-      "name": {
-        "kind": "Name",
-        "value": "C"
-      },
-      "typeCondition": {
-        "kind": "NamedType",
-        "name": {
-          "kind": "Name",
-          "value": "C"
-        }
-      },
-      "directives": [],
-      "selectionSet": {
-        "kind": "SelectionSet",
-        "selections": [
-          {
-            "kind": "Field",
-            "alias": null,
-            "name": {
-              "kind": "Name",
-              "value": "c"
-            },
-            "arguments": [],
-            "directives": [],
-            "selectionSet": null
-          }
-        ]
-      }
     }
   ],
   "loc": {

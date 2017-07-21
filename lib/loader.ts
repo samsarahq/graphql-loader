@@ -75,6 +75,23 @@ async function loadSource(loader: loader.LoaderContext, source: string) {
   return document;
 }
 
+function removeDuplicateFragments(document: DocumentNode) {
+  const usedName = new Set();
+  document.definitions = document.definitions.filter(def => {
+    if (def.kind !== "FragmentDefinition") {
+      return true;
+    }
+
+    const name = def.name.value;
+    if (usedName.has(name)) {
+      return false;
+    } else {
+      usedName.add(name);
+      return true;
+    }
+  });
+}
+
 export default async function loader(
   this: loader.LoaderContext,
   source: string,
@@ -86,10 +103,10 @@ export default async function loader(
   }
 
   try {
-    done(
-      null,
-      "module.exports = " + JSON.stringify(await loadSource(this, source)),
-    );
+    const document = await loadSource(this, source);
+    removeDuplicateFragments(document);
+
+    done(null, "module.exports = " + JSON.stringify(document));
   } catch (err) {
     done(err);
   }
