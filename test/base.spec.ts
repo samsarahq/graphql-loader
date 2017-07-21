@@ -37,4 +37,12 @@ describe("graphql-loader", function() {
       snapshot(err);
     }
   });
+
+  it("fails to validate missing fragment", async function() {
+    try {
+      const document = await runFixture("fail-missing-fragment");
+    } catch (err) {
+      snapshot(err);
+    }
+  });
 });

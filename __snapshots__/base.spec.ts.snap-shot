@@ -333,3 +333,9 @@ exports['fails to validate invalid field 1'] = {
   ]
 }
 
+exports['fails to validate missing fragment 1'] = {
+  "errors": [
+    "./test/fixtures/fail-missing-fragment/query.graphql\nUnknown fragment \"Q\".\nGraphQLError: Unknown fragment \"Q\".\n    at Object.FragmentSpread (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/rules/KnownFragmentNames.js:36:29)\n    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:297:29)\n    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:339:25)\n    at visit (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:229:26)\n    at visitUsingRules (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:76:22)\n    at Object.validate (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:61:10)\n    at Object.<anonymous> (/Users/stephen/git/graphql-loader/lib/loader.ts:139:26)\n    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)\n    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)\n    at fulfilled (/Users/stephen/git/graphql-loader/lib/loader.ts:12:58)\n    at <anonymous>"
+  ]
+}
+
