@@ -116,7 +116,9 @@ export default async function loader(
   if (options.validate) {
     // XXX: add a test
     if (!options.schema) {
-      this.emitError("schema option must be passed if validate is true");
+      this.emitError(
+        new Error("schema option must be passed if validate is true") as any,
+      );
       return;
     }
 
@@ -136,7 +138,7 @@ export default async function loader(
       // Validate
       validationErrors = graphqlValidate(schema, document);
       if (validationErrors.length > 0) {
-        validationErrors.forEach(err => this.emitError(err.message));
+        validationErrors.forEach(err => this.emitError(err as any));
       }
     }
 
