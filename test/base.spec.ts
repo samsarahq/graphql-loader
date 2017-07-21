@@ -29,4 +29,12 @@ describe("graphql-loader", function() {
       snapshot(err);
     }
   });
+
+  it("fails to validate invalid field", async function() {
+    try {
+      const document = await runFixture("fail-invalid-field");
+    } catch (err) {
+      snapshot(err);
+    }
+  });
 });
