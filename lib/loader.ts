@@ -16,6 +16,11 @@ import * as fs from "fs";
 import pify = require("pify");
 import * as loaderUtils from "loader-utils";
 
+interface LoaderOptions {
+  schema?: string;
+  validate?: boolean;
+}
+
 const fsReadFile = pify(fs.readFile);
 async function readFile(filePath: string): Promise<string> {
   const content = await fsReadFile(filePath);
@@ -111,7 +116,7 @@ export default async function loader(
     throw new Error("Loader does not support synchronous processing");
   }
 
-  const options = { ...loaderUtils.getOptions(this) };
+  const options: LoaderOptions = { ...loaderUtils.getOptions(this) };
   let schema: GraphQLSchema | undefined = undefined;
   if (options.validate) {
     // XXX: add a test
