@@ -1,9 +1,9 @@
 import * as webpack from "webpack";
-import * as MemoryFileSystem from "memory-fs";
+import MemoryFileSystem = require("memory-fs");
 
 const loaderPath = require.resolve("../lib/loader");
 
-export function compile(options) {
+export function compile(options: Partial<webpack.Configuration>) {
   return new Promise((resolve, reject) => {
     const compiler = webpack({
       ...options,

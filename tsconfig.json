@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "lib": ["es2015"]
+    "strict": true,
+    "lib": ["es2015", "es2017.object"]
   }
 }

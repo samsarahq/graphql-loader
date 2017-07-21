@@ -1,0 +1,7 @@
+#import "./fragment.graphql"
+
+query X {
+  x
+  y
+  ...Z
+}
