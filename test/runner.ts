@@ -1,4 +1,5 @@
 import * as webpack from "webpack";
+import * as path from "path";
 import MemoryFileSystem = require("memory-fs");
 import { DocumentNode } from "graphql";
 
@@ -12,9 +13,14 @@ export class WebpackError extends Error {
   }
 }
 
-export function compile(
-  options: Partial<webpack.Configuration>,
-): Promise<DocumentNode> {
+export function runFixture(fixtureName: string): Promise<DocumentNode> {
+  const config = require(path.join(
+    __dirname,
+    "/fixtures/",
+    fixtureName,
+    "webpack.config.ts",
+  ));
+
   return new Promise((resolve, reject) => {
     const fs = new MemoryFileSystem();
 
@@ -33,7 +39,7 @@ export function compile(
         filename: `bundle.js`,
         libraryTarget: "commonjs2",
       },
-      ...options,
+      ...config,
     });
 
     compiler.outputFileSystem = fs;
