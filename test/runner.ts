@@ -50,6 +50,7 @@ export function runFixture(fixtureName: string): Promise<DocumentNode> {
       } else {
         if (stats.hasErrors()) {
           reject(new WebpackError(stats.toJson().errors));
+          return;
         }
 
         const output = fs.readFileSync("/bundle.js").toString() as string;

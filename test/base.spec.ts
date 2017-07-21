@@ -21,4 +21,12 @@ describe("graphql-loader", function() {
     const document = await runFixture("validator");
     snapshot(document);
   });
+
+  it("fails to parse invalid document", async function() {
+    try {
+      const document = await runFixture("fail-invalid-document");
+    } catch (err) {
+      snapshot(err);
+    }
+  });
 });
