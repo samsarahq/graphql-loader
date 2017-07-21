@@ -6,6 +6,13 @@
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.10.0.tgz#85c6cddd0de9449af009af9ff61aa5870c59fee3"
 
+"@types/loader-utils@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/loader-utils/-/loader-utils-1.1.0.tgz#6e71758ea4f529afca36fdebffd5b48c579e90da"
+  dependencies:
+    "@types/node" "*"
+    "@types/webpack" "*"
+
 "@types/memory-fs@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@types/memory-fs/-/memory-fs-0.3.0.tgz#847596a94f9a9688a2e342f4017fcc0050e8e2da"
@@ -34,7 +41,7 @@
   dependencies:
     "@types/source-map" "*"
 
-"@types/webpack@^3.0.4":
+"@types/webpack@*", "@types/webpack@^3.0.4":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-3.0.4.tgz#a115419db8bd4077fc50f5c2b5ba1b44b4e5ff48"
   dependencies:
@@ -525,7 +532,7 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-debug@2.6.0, debug@^2.2.0:
+debug@2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
@@ -537,7 +544,7 @@ debug@2.6.1:
   dependencies:
     ms "0.7.2"
 
-debug@2.6.3:
+debug@2.6.3, debug@^2.2.0:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.3.tgz#0f7eb8c30965ec08c72accfa0130c8b79984141d"
   dependencies:

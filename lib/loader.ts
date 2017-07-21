@@ -1,8 +1,20 @@
 import gql from "graphql-tag";
+import { print as graphqlPrint } from "graphql/language/printer";
+import { parse as graphqlParse } from "graphql/language/parser";
+import { validate as graphqlValidate } from "graphql/validation/validate";
+
 import { loader } from "webpack";
-import { DocumentNode, DefinitionNode } from "graphql";
+import {
+  DocumentNode,
+  DefinitionNode,
+  GraphQLSchema,
+  IntrospectionQuery,
+  buildClientSchema,
+  graphql,
+} from "graphql";
 import * as fs from "fs";
 import pify = require("pify");
+import * as loaderUtils from "loader-utils";
 
 const fsReadFile = pify(fs.readFile);
 async function readFile(filePath: string): Promise<string> {
@@ -99,9 +111,34 @@ export default async function loader(
     throw new Error("Loader does not support synchronous processing");
   }
 
+  const options = { ...loaderUtils.getOptions(this) };
+  let schema: GraphQLSchema | undefined = undefined;
+  if (options.validate) {
+    // XXX: add a test
+    if (!options.schema) {
+      this.emitError("schema option must be passed if validate is true");
+      return;
+    }
+
+    const loaderResolve = pify(this.resolve);
+    const schemaPath = await loaderResolve(this.context, options.schema);
+    this.addDependency(schemaPath);
+    const schemaString = await readFile(schemaPath);
+    schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
+  }
+
+  let validationErrors: Error[] = [];
   try {
     const document = await loadSource(this, source);
     removeDuplicateFragments(document);
+
+    if (schema) {
+      // Validate
+      validationErrors = graphqlValidate(schema, document);
+      if (validationErrors.length > 0) {
+        validationErrors.forEach(err => this.emitError(err.message));
+      }
+    }
 
     done(null, "module.exports = " + JSON.stringify(document));
   } catch (err) {
