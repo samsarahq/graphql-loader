@@ -4,6 +4,14 @@ import { DocumentNode } from "graphql";
 
 const loaderPath = require.resolve("../lib/loader");
 
+export class WebpackError extends Error {
+  constructor(public errors: Error[]) {
+    super(`Test Run Compiler Error:\n${errors.map(err => err).join("\n")}`);
+
+    Object.setPrototypeOf(this, WebpackError.prototype);
+  }
+}
+
 export function compile(
   options: Partial<webpack.Configuration>,
 ): Promise<DocumentNode> {
@@ -11,7 +19,6 @@ export function compile(
     const fs = new MemoryFileSystem();
 
     const compiler = webpack({
-      ...options,
       module: {
         rules: [
           {
@@ -26,6 +33,7 @@ export function compile(
         filename: `bundle.js`,
         libraryTarget: "commonjs2",
       },
+      ...options,
     });
 
     compiler.outputFileSystem = fs;
@@ -34,8 +42,11 @@ export function compile(
       if (err) {
         reject(err);
       } else {
-        const output = fs.readFileSync("/bundle.js").toString() as string;
+        if (stats.hasErrors()) {
+          reject(new WebpackError(stats.toJson().errors));
+        }
 
+        const output = fs.readFileSync("/bundle.js").toString() as string;
         resolve(eval(output) as DocumentNode);
       }
     });
