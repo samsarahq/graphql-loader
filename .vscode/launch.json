@@ -21,6 +21,28 @@
         "test/**/*.spec.ts"
       ],
       "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Update Snapshots",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "-u",
+        "tdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceRoot}/test",
+        "--require",
+        "ts-node/register",
+        "test/**/*.spec.ts"
+      ],
+      "env": {
+        "UPDATE": 1
+      },
+      "internalConsoleOptions": "openOnSessionStart"
     }
+
   ]
 }

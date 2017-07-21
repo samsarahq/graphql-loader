@@ -1,0 +1,303 @@
+exports['should load a simple query 1'] = {
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "query",
+      "name": {
+        "kind": "Name",
+        "value": "X"
+      },
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "alias": null,
+            "name": {
+              "kind": "Name",
+              "value": "x"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": null
+          },
+          {
+            "kind": "Field",
+            "alias": null,
+            "name": {
+              "kind": "Name",
+              "value": "y"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": null
+          },
+          {
+            "kind": "Field",
+            "alias": null,
+            "name": {
+              "kind": "Name",
+              "value": "z"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": null
+          }
+        ]
+      }
+    }
+  ],
+  "loc": {
+    "start": 0,
+    "end": 24
+  }
+}
+
+exports['should load an imported fragment 1'] = {
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "query",
+      "name": {
+        "kind": "Name",
+        "value": "X"
+      },
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "alias": null,
+            "name": {
+              "kind": "Name",
+              "value": "x"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": null
+          },
+          {
+            "kind": "Field",
+            "alias": null,
+            "name": {
+              "kind": "Name",
+              "value": "y"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": null
+          },
+          {
+            "kind": "FragmentSpread",
+            "name": {
+              "kind": "Name",
+              "value": "Z"
+            },
+            "directives": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "Z"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "Z"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "alias": null,
+            "name": {
+              "kind": "Name",
+              "value": "z"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": null
+          }
+        ]
+      }
+    }
+  ],
+  "loc": {
+    "start": 0,
+    "end": 57
+  }
+}
+
+exports['should ignore duplicate an imported fragment 1'] = {
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "query",
+      "name": {
+        "kind": "Name",
+        "value": "X"
+      },
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": {
+              "kind": "Name",
+              "value": "a"
+            },
+            "directives": []
+          },
+          {
+            "kind": "FragmentSpread",
+            "name": {
+              "kind": "Name",
+              "value": "b"
+            },
+            "directives": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "A"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "A"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": {
+              "kind": "Name",
+              "value": "C"
+            },
+            "directives": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "C"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "C"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "alias": null,
+            "name": {
+              "kind": "Name",
+              "value": "c"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": null
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "B"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "B"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": {
+              "kind": "Name",
+              "value": "C"
+            },
+            "directives": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "C"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "C"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "alias": null,
+            "name": {
+              "kind": "Name",
+              "value": "c"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": null
+          }
+        ]
+      }
+    }
+  ],
+  "loc": {
+    "start": 0,
+    "end": 71
+  }
+}
+
