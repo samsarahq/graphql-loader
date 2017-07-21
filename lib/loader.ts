@@ -16,20 +16,21 @@ async function extractImports(
   document: DocumentNode,
 ) {
   const lines = source.split(/(\r\n|\r|\n)/);
+  const loaderResolve = pify(loader.resolve);
 
   const imports: Array<Promise<string>> = [];
   lines.forEach(line => {
+    // Find lines that match syntax with `#import "<file>"`
     if (line[0] !== "#") {
       return;
     }
 
-    const commentContent = line.slice(1).split(" ");
-    if (commentContent[0] !== "import") {
+    const comment = line.slice(1).split(" ");
+    if (comment[0] !== "import") {
       return;
     }
 
-    const filePathMatch =
-      commentContent[1] && commentContent[1].match(/^[\"\'](.+)[\"\']/);
+    const filePathMatch = comment[1] && comment[1].match(/^[\"\'](.+)[\"\']/);
     if (!filePathMatch || !filePathMatch.length) {
       throw new Error("#import statement must specify a quoted file path");
     }
@@ -49,23 +50,19 @@ async function extractImports(
     );
   });
 
-  const importedDocumentFiles = await Promise.all(imports);
-  const importedDocumentContents = await Promise.all(
-    importedDocumentFiles.map(doc => readFile(doc)),
+  const files = await Promise.all(imports);
+  const contents = await Promise.all(files.map(doc => readFile(doc)));
+
+  const nodes = await Promise.all(
+    contents.map(content => loadSource(loader, content)),
   );
 
-  const importedDocumentNodes = await Promise.all(
-    importedDocumentContents.map(content => {
-      return loadSource(loader, content);
-    }),
-  );
-
-  const flattenedDefinitions = importedDocumentNodes.reduce((defs, node) => {
+  const fragmentDefinitions = nodes.reduce((defs, node) => {
     defs.push(...node.definitions);
     return defs;
   }, [] as DefinitionNode[]);
 
-  document.definitions = [...document.definitions, ...flattenedDefinitions];
+  document.definitions = [...document.definitions, ...fragmentDefinitions];
   return document;
 }
 
