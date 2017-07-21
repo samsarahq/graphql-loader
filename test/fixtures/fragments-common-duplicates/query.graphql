@@ -1,0 +1,7 @@
+#import "./a.graphql"
+#import "./b.graphql"
+
+query X {
+  ...a
+  ...b
+}

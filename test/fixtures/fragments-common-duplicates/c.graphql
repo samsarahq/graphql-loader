@@ -1,0 +1,3 @@
+fragment C on C {
+  c
+}

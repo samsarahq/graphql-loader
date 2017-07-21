@@ -14,4 +14,11 @@ describe("loader", function() {
       entry: "./query.graphql",
     });
   });
+
+  it("should ignore duplicate an imported fragment", async function() {
+    await compile({
+      context: __dirname + "/fixtures/fragments-common-duplicates",
+      entry: "./query.graphql",
+    });
+  });
 });

@@ -1,0 +1,5 @@
+#import "./c.graphql"
+
+fragment A on A {
+  ...C
+}
