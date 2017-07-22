@@ -1,4 +1,4 @@
-const loaderPath = require.resolve("../../../lib/loader");
+const loaderPath = require.resolve("../../../src/loader");
 
 module.exports = {
   context: __dirname,

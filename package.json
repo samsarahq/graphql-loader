@@ -2,11 +2,11 @@
   "name": "graphql-loader",
   "version": "0.0.1",
   "description": "webpack graphql loader",
-  "main": "./src/loader.js",
+  "main": "./lib/loader.js",
   "author": "Stephen Wan <stephen@stephenwan.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc ./lib/** --outDir ./src",
+    "build": "tsc ./src/** --outDir ./lib",
     "test": "jest"
   },
   "devDependencies": {

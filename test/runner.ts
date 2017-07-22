@@ -3,7 +3,7 @@ import * as path from "path";
 import MemoryFileSystem = require("memory-fs");
 import { DocumentNode } from "graphql";
 
-const loaderPath = require.resolve("../lib/loader");
+const loaderPath = require.resolve("../src/loader");
 
 export class WebpackError extends Error {
   constructor(public errors: Error[]) {

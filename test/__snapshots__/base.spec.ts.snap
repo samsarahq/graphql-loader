@@ -23,20 +23,20 @@ Module build failed: GraphQLError: Syntax Error GraphQL request (2:3) Expected N
     at parse (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:46:10)
     at parseDocument (/Users/stephen/git/graphql-loader/node_modules/graphql-tag/lib/graphql-tag.umd.js:134:16)
     at Function.gql [as default] (/Users/stephen/git/graphql-loader/node_modules/graphql-tag/lib/graphql-tag.umd.js:167:10)
-    at /Users/stephen/git/graphql-loader/lib/loader.ts:126:56
-    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)
-    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)
-    at /Users/stephen/git/graphql-loader/lib/loader.ts:15:71
+    at /Users/stephen/git/graphql-loader/src/loader.ts:126:56
+    at step (/Users/stephen/git/graphql-loader/src/loader.ts:40:23)
+    at Object.next (/Users/stephen/git/graphql-loader/src/loader.ts:21:53)
+    at /Users/stephen/git/graphql-loader/src/loader.ts:15:71
     at Promise (<anonymous>)
-    at Object.<anonymous>.__awaiter (/Users/stephen/git/graphql-loader/lib/loader.ts:11:12)
-    at loadSource (/Users/stephen/git/graphql-loader/lib/loader.ts:121:12)
-    at Object.<anonymous> (/Users/stephen/git/graphql-loader/lib/loader.ts:186:42)
-    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)
-    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)
-    at /Users/stephen/git/graphql-loader/lib/loader.ts:15:71
+    at Object.<anonymous>.__awaiter (/Users/stephen/git/graphql-loader/src/loader.ts:11:12)
+    at loadSource (/Users/stephen/git/graphql-loader/src/loader.ts:121:12)
+    at Object.<anonymous> (/Users/stephen/git/graphql-loader/src/loader.ts:186:42)
+    at step (/Users/stephen/git/graphql-loader/src/loader.ts:40:23)
+    at Object.next (/Users/stephen/git/graphql-loader/src/loader.ts:21:53)
+    at /Users/stephen/git/graphql-loader/src/loader.ts:15:71
     at Promise (<anonymous>)
-    at Object.<anonymous>.__awaiter (/Users/stephen/git/graphql-loader/lib/loader.ts:11:12)
-    at Object.loader (/Users/stephen/git/graphql-loader/lib/loader.ts:152:12)]
+    at Object.<anonymous>.__awaiter (/Users/stephen/git/graphql-loader/src/loader.ts:11:12)
+    at Object.loader (/Users/stephen/git/graphql-loader/src/loader.ts:152:12)]
 `;
 
 exports[`graphql-loader fails to validate invalid field 1`] = `
@@ -50,10 +50,10 @@ GraphQLError: Cannot query field "q" on type "Y". Did you mean "z"?
     at visit (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:229:26)
     at visitUsingRules (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:76:22)
     at Object.validate (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:61:10)
-    at Object.<anonymous> (/Users/stephen/git/graphql-loader/lib/loader.ts:192:55)
-    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)
-    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)
-    at fulfilled (/Users/stephen/git/graphql-loader/lib/loader.ts:12:58)
+    at Object.<anonymous> (/Users/stephen/git/graphql-loader/src/loader.ts:192:55)
+    at step (/Users/stephen/git/graphql-loader/src/loader.ts:40:23)
+    at Object.next (/Users/stephen/git/graphql-loader/src/loader.ts:21:53)
+    at fulfilled (/Users/stephen/git/graphql-loader/src/loader.ts:12:58)
     at <anonymous>]
 `;
 
@@ -68,10 +68,10 @@ GraphQLError: Unknown fragment "Q".
     at visit (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:229:26)
     at visitUsingRules (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:76:22)
     at Object.validate (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:61:10)
-    at Object.<anonymous> (/Users/stephen/git/graphql-loader/lib/loader.ts:192:55)
-    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)
-    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)
-    at fulfilled (/Users/stephen/git/graphql-loader/lib/loader.ts:12:58)
+    at Object.<anonymous> (/Users/stephen/git/graphql-loader/src/loader.ts:192:55)
+    at step (/Users/stephen/git/graphql-loader/src/loader.ts:40:23)
+    at Object.next (/Users/stephen/git/graphql-loader/src/loader.ts:21:53)
+    at fulfilled (/Users/stephen/git/graphql-loader/src/loader.ts:12:58)
     at <anonymous>]
 `;
 
