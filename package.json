@@ -6,7 +6,8 @@
   "author": "Stephen Wan <stephen@stephenwan.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc ./src/** --outDir ./lib",
+    "build": "tsc",
+    "prepublish": "npm run build",
     "test": "jest"
   },
   "devDependencies": {

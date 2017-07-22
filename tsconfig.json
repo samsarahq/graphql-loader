@@ -2,6 +2,13 @@
   "compileOnSave": false,
   "compilerOptions": {
     "strict": true,
-    "lib": ["es2015", "es2017.object"]
-  }
+    "lib": ["es2015", "es2017.object", "esnext.asynciterable"],
+    "outDir": "lib/",
+    "declaration": true,
+    "noEmitOnError": true,
+    "sourceMap": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }
