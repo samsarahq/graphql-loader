@@ -39,5 +39,3 @@ declare module "pify" {
 
   export = promisify;
 }
-
-declare module "snap-shot";

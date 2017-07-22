@@ -1,32 +1,31 @@
 import { runFixture, WebpackError } from "./runner";
-import * as snapshot from "snap-shot";
 
 describe("graphql-loader", function() {
   it("should load a simple query", async function() {
     const document = await runFixture("simple");
-    snapshot(document);
+    expect(document).toMatchSnapshot();
   });
 
   it("should load an imported fragment", async function() {
     const document = await runFixture("fragments");
-    snapshot(document);
+    expect(document).toMatchSnapshot();
   });
 
   it("should ignore duplicate an imported fragment", async function() {
     const document = await runFixture("fragments-common-duplicates");
-    snapshot(document);
+    expect(document).toMatchSnapshot();
   });
 
   it("validates graphql query", async function() {
     const document = await runFixture("validator");
-    snapshot(document);
+    expect(document).toMatchSnapshot();
   });
 
   it("fails to parse invalid document", async function() {
     try {
       const document = await runFixture("fail-invalid-document");
     } catch (err) {
-      snapshot(err);
+      expect(err).toMatchSnapshot();
     }
   });
 
@@ -34,7 +33,7 @@ describe("graphql-loader", function() {
     try {
       const document = await runFixture("fail-invalid-field");
     } catch (err) {
-      snapshot(err);
+      expect(err).toMatchSnapshot();
     }
   });
 
@@ -42,7 +41,7 @@ describe("graphql-loader", function() {
     try {
       const document = await runFixture("fail-missing-fragment");
     } catch (err) {
-      snapshot(err);
+      expect(err).toMatchSnapshot();
     }
   });
 });

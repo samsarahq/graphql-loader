@@ -1,0 +1,407 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`graphql-loader fails to parse invalid document 1`] = `
+[Error: Test Run Compiler Error:
+./test/fixtures/fail-invalid-document/query.graphql
+Module build failed: GraphQLError: Syntax Error GraphQL request (2:3) Expected Name, found [
+
+1: query X {
+2:   []
+     ^
+3: }
+
+    at syntaxError (/Users/stephen/git/graphql-loader/node_modules/graphql/error/syntaxError.js:31:15)
+    at expect (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:973:32)
+    at parseName (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:91:15)
+    at parseField (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:276:21)
+    at parseSelection (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:265:72)
+    at many (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:1022:16)
+    at parseSelectionSet (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:253:17)
+    at parseOperationDefinition (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:189:19)
+    at parseDefinition (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:136:16)
+    at parseDocument (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:109:22)
+    at parse (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:46:10)
+    at parseDocument (/Users/stephen/git/graphql-loader/node_modules/graphql-tag/lib/graphql-tag.umd.js:134:16)
+    at Function.gql [as default] (/Users/stephen/git/graphql-loader/node_modules/graphql-tag/lib/graphql-tag.umd.js:167:10)
+    at /Users/stephen/git/graphql-loader/lib/loader.ts:126:56
+    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)
+    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)
+    at /Users/stephen/git/graphql-loader/lib/loader.ts:15:71
+    at Promise (<anonymous>)
+    at Object.<anonymous>.__awaiter (/Users/stephen/git/graphql-loader/lib/loader.ts:11:12)
+    at loadSource (/Users/stephen/git/graphql-loader/lib/loader.ts:121:12)
+    at Object.<anonymous> (/Users/stephen/git/graphql-loader/lib/loader.ts:186:42)
+    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)
+    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)
+    at /Users/stephen/git/graphql-loader/lib/loader.ts:15:71
+    at Promise (<anonymous>)
+    at Object.<anonymous>.__awaiter (/Users/stephen/git/graphql-loader/lib/loader.ts:11:12)
+    at Object.loader (/Users/stephen/git/graphql-loader/lib/loader.ts:152:12)]
+`;
+
+exports[`graphql-loader fails to validate invalid field 1`] = `
+[Error: Test Run Compiler Error:
+./test/fixtures/fail-invalid-field/query.graphql
+Cannot query field "q" on type "Y". Did you mean "z"?
+GraphQLError: Cannot query field "q" on type "Y". Did you mean "z"?
+    at Object.Field (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/rules/FieldsOnCorrectType.js:66:31)
+    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:297:29)
+    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:339:25)
+    at visit (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:229:26)
+    at visitUsingRules (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:76:22)
+    at Object.validate (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:61:10)
+    at Object.<anonymous> (/Users/stephen/git/graphql-loader/lib/loader.ts:192:55)
+    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)
+    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)
+    at fulfilled (/Users/stephen/git/graphql-loader/lib/loader.ts:12:58)
+    at <anonymous>]
+`;
+
+exports[`graphql-loader fails to validate missing fragment 1`] = `
+[Error: Test Run Compiler Error:
+./test/fixtures/fail-missing-fragment/query.graphql
+Unknown fragment "Q".
+GraphQLError: Unknown fragment "Q".
+    at Object.FragmentSpread (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/rules/KnownFragmentNames.js:36:29)
+    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:297:29)
+    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:339:25)
+    at visit (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:229:26)
+    at visitUsingRules (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:76:22)
+    at Object.validate (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:61:10)
+    at Object.<anonymous> (/Users/stephen/git/graphql-loader/lib/loader.ts:192:55)
+    at step (/Users/stephen/git/graphql-loader/lib/loader.ts:40:23)
+    at Object.next (/Users/stephen/git/graphql-loader/lib/loader.ts:21:53)
+    at fulfilled (/Users/stephen/git/graphql-loader/lib/loader.ts:12:58)
+    at <anonymous>]
+`;
+
+exports[`graphql-loader should ignore duplicate an imported fragment 1`] = `
+Object {
+  "definitions": Array [
+    Object {
+      "directives": Array [],
+      "kind": "OperationDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "X",
+      },
+      "operation": "query",
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "selections": Array [
+          Object {
+            "directives": Array [],
+            "kind": "FragmentSpread",
+            "name": Object {
+              "kind": "Name",
+              "value": "a",
+            },
+          },
+          Object {
+            "directives": Array [],
+            "kind": "FragmentSpread",
+            "name": Object {
+              "kind": "Name",
+              "value": "b",
+            },
+          },
+        ],
+      },
+      "variableDefinitions": Array [],
+    },
+    Object {
+      "directives": Array [],
+      "kind": "FragmentDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "A",
+      },
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "selections": Array [
+          Object {
+            "directives": Array [],
+            "kind": "FragmentSpread",
+            "name": Object {
+              "kind": "Name",
+              "value": "C",
+            },
+          },
+        ],
+      },
+      "typeCondition": Object {
+        "kind": "NamedType",
+        "name": Object {
+          "kind": "Name",
+          "value": "A",
+        },
+      },
+    },
+    Object {
+      "directives": Array [],
+      "kind": "FragmentDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "C",
+      },
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "selections": Array [
+          Object {
+            "alias": null,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "name": Object {
+              "kind": "Name",
+              "value": "c",
+            },
+            "selectionSet": null,
+          },
+        ],
+      },
+      "typeCondition": Object {
+        "kind": "NamedType",
+        "name": Object {
+          "kind": "Name",
+          "value": "C",
+        },
+      },
+    },
+    Object {
+      "directives": Array [],
+      "kind": "FragmentDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "B",
+      },
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "selections": Array [
+          Object {
+            "directives": Array [],
+            "kind": "FragmentSpread",
+            "name": Object {
+              "kind": "Name",
+              "value": "C",
+            },
+          },
+        ],
+      },
+      "typeCondition": Object {
+        "kind": "NamedType",
+        "name": Object {
+          "kind": "Name",
+          "value": "B",
+        },
+      },
+    },
+  ],
+  "kind": "Document",
+  "loc": Object {
+    "end": 71,
+    "start": 0,
+  },
+}
+`;
+
+exports[`graphql-loader should load a simple query 1`] = `
+Object {
+  "definitions": Array [
+    Object {
+      "directives": Array [],
+      "kind": "OperationDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "X",
+      },
+      "operation": "query",
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "selections": Array [
+          Object {
+            "alias": null,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "name": Object {
+              "kind": "Name",
+              "value": "x",
+            },
+            "selectionSet": null,
+          },
+          Object {
+            "alias": null,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "name": Object {
+              "kind": "Name",
+              "value": "y",
+            },
+            "selectionSet": null,
+          },
+          Object {
+            "alias": null,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "name": Object {
+              "kind": "Name",
+              "value": "z",
+            },
+            "selectionSet": null,
+          },
+        ],
+      },
+      "variableDefinitions": Array [],
+    },
+  ],
+  "kind": "Document",
+  "loc": Object {
+    "end": 24,
+    "start": 0,
+  },
+}
+`;
+
+exports[`graphql-loader should load an imported fragment 1`] = `
+Object {
+  "definitions": Array [
+    Object {
+      "directives": Array [],
+      "kind": "OperationDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "X",
+      },
+      "operation": "query",
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "selections": Array [
+          Object {
+            "alias": null,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "name": Object {
+              "kind": "Name",
+              "value": "x",
+            },
+            "selectionSet": null,
+          },
+          Object {
+            "alias": null,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "name": Object {
+              "kind": "Name",
+              "value": "y",
+            },
+            "selectionSet": null,
+          },
+          Object {
+            "directives": Array [],
+            "kind": "FragmentSpread",
+            "name": Object {
+              "kind": "Name",
+              "value": "Z",
+            },
+          },
+        ],
+      },
+      "variableDefinitions": Array [],
+    },
+    Object {
+      "directives": Array [],
+      "kind": "FragmentDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "Z",
+      },
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "selections": Array [
+          Object {
+            "alias": null,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "name": Object {
+              "kind": "Name",
+              "value": "z",
+            },
+            "selectionSet": null,
+          },
+        ],
+      },
+      "typeCondition": Object {
+        "kind": "NamedType",
+        "name": Object {
+          "kind": "Name",
+          "value": "Z",
+        },
+      },
+    },
+  ],
+  "kind": "Document",
+  "loc": Object {
+    "end": 57,
+    "start": 0,
+  },
+}
+`;
+
+exports[`graphql-loader validates graphql query 1`] = `
+Object {
+  "definitions": Array [
+    Object {
+      "directives": Array [],
+      "kind": "OperationDefinition",
+      "name": Object {
+        "kind": "Name",
+        "value": "X",
+      },
+      "operation": "query",
+      "selectionSet": Object {
+        "kind": "SelectionSet",
+        "selections": Array [
+          Object {
+            "alias": null,
+            "arguments": Array [],
+            "directives": Array [],
+            "kind": "Field",
+            "name": Object {
+              "kind": "Name",
+              "value": "y",
+            },
+            "selectionSet": Object {
+              "kind": "SelectionSet",
+              "selections": Array [
+                Object {
+                  "alias": null,
+                  "arguments": Array [],
+                  "directives": Array [],
+                  "kind": "Field",
+                  "name": Object {
+                    "kind": "Name",
+                    "value": "z",
+                  },
+                  "selectionSet": null,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      "variableDefinitions": Array [],
+    },
+  ],
+  "kind": "Document",
+  "loc": Object {
+    "end": 28,
+    "start": 0,
+  },
+}
+`;
