@@ -1,76 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`graphql-loader fails to parse invalid document 1`] = `
-[Error: Test Run Compiler Error:
-./test/fixtures/fail-invalid-document/query.graphql
+Array [
+  "./test/fixtures/fail-invalid-document/query.graphql
 Module build failed: GraphQLError: Syntax Error GraphQL request (2:3) Expected Name, found [
 
 1: query X {
 2:   []
      ^
 3: }
-
-    at syntaxError (/Users/stephen/git/graphql-loader/node_modules/graphql/error/syntaxError.js:31:15)
-    at expect (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:973:32)
-    at parseName (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:91:15)
-    at parseField (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:276:21)
-    at parseSelection (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:265:72)
-    at many (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:1022:16)
-    at parseSelectionSet (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:253:17)
-    at parseOperationDefinition (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:189:19)
-    at parseDefinition (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:136:16)
-    at parseDocument (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:109:22)
-    at parse (/Users/stephen/git/graphql-loader/node_modules/graphql/language/parser.js:46:10)
-    at parseDocument (/Users/stephen/git/graphql-loader/node_modules/graphql-tag/lib/graphql-tag.umd.js:134:16)
-    at Function.gql [as default] (/Users/stephen/git/graphql-loader/node_modules/graphql-tag/lib/graphql-tag.umd.js:167:10)
-    at /Users/stephen/git/graphql-loader/src/loader.ts:126:56
-    at step (/Users/stephen/git/graphql-loader/src/loader.ts:40:23)
-    at Object.next (/Users/stephen/git/graphql-loader/src/loader.ts:21:53)
-    at /Users/stephen/git/graphql-loader/src/loader.ts:15:71
-    at Promise (<anonymous>)
-    at Object.<anonymous>.__awaiter (/Users/stephen/git/graphql-loader/src/loader.ts:11:12)
-    at loadSource (/Users/stephen/git/graphql-loader/src/loader.ts:121:12)
-    at Object.<anonymous> (/Users/stephen/git/graphql-loader/src/loader.ts:200:42)
-    at step (/Users/stephen/git/graphql-loader/src/loader.ts:40:23)
-    at Object.next (/Users/stephen/git/graphql-loader/src/loader.ts:21:53)
-    at fulfilled (/Users/stephen/git/graphql-loader/src/loader.ts:12:58)
-    at <anonymous>]
+",
+]
 `;
 
 exports[`graphql-loader fails to validate invalid field 1`] = `
-[Error: Test Run Compiler Error:
-./test/fixtures/fail-invalid-field/query.graphql
-Cannot query field "q" on type "Y". Did you mean "z"?
-GraphQLError: Cannot query field "q" on type "Y". Did you mean "z"?
-    at Object.Field (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/rules/FieldsOnCorrectType.js:66:31)
-    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:297:29)
-    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:339:25)
-    at visit (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:229:26)
-    at visitUsingRules (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:76:22)
-    at Object.validate (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:61:10)
-    at Object.<anonymous> (/Users/stephen/git/graphql-loader/src/loader.ts:206:55)
-    at step (/Users/stephen/git/graphql-loader/src/loader.ts:40:23)
-    at Object.next (/Users/stephen/git/graphql-loader/src/loader.ts:21:53)
-    at fulfilled (/Users/stephen/git/graphql-loader/src/loader.ts:12:58)
-    at <anonymous>]
+Array [
+  "./test/fixtures/fail-invalid-field/query.graphql
+Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?
+GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?",
+]
 `;
 
 exports[`graphql-loader fails to validate missing fragment 1`] = `
-[Error: Test Run Compiler Error:
-./test/fixtures/fail-missing-fragment/query.graphql
-Unknown fragment "Q".
-GraphQLError: Unknown fragment "Q".
-    at Object.FragmentSpread (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/rules/KnownFragmentNames.js:36:29)
-    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:297:29)
-    at Object.enter (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:339:25)
-    at visit (/Users/stephen/git/graphql-loader/node_modules/graphql/language/visitor.js:229:26)
-    at visitUsingRules (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:76:22)
-    at Object.validate (/Users/stephen/git/graphql-loader/node_modules/graphql/validation/validate.js:61:10)
-    at Object.<anonymous> (/Users/stephen/git/graphql-loader/src/loader.ts:206:55)
-    at step (/Users/stephen/git/graphql-loader/src/loader.ts:40:23)
-    at Object.next (/Users/stephen/git/graphql-loader/src/loader.ts:21:53)
-    at fulfilled (/Users/stephen/git/graphql-loader/src/loader.ts:12:58)
-    at <anonymous>]
+Array [
+  "./test/fixtures/fail-missing-fragment/query.graphql
+Unknown fragment \\"Q\\".
+GraphQLError: Unknown fragment \\"Q\\".",
+]
 `;
 
 exports[`graphql-loader should ignore duplicate an imported fragment 1`] = `

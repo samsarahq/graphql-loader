@@ -5,11 +5,11 @@ import { DocumentNode } from "graphql";
 
 const loaderPath = require.resolve("../src/loader");
 
-export class WebpackError extends Error {
-  constructor(public errors: Error[]) {
+export class TestRunError extends Error {
+  constructor(public errors: String[]) {
     super(`Test Run Compiler Error:\n${errors.map(err => err).join("\n")}`);
 
-    Object.setPrototypeOf(this, WebpackError.prototype);
+    Object.setPrototypeOf(this, TestRunError.prototype);
   }
 }
 
@@ -49,7 +49,7 @@ export function runFixture(fixtureName: string): Promise<DocumentNode> {
         reject(err);
       } else {
         if (stats.hasErrors()) {
-          reject(new WebpackError(stats.toJson().errors));
+          reject(new TestRunError(stats.toJson().errors));
           return;
         }
 

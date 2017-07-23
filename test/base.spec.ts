@@ -1,4 +1,4 @@
-import { runFixture, WebpackError } from "./runner";
+import { runFixture, TestRunError } from "./runner";
 
 describe("graphql-loader", function() {
   Object.entries({
@@ -16,8 +16,12 @@ describe("graphql-loader", function() {
         const document = await runFixture(fixturePath);
         expect(document).toMatchSnapshot();
       } catch (err) {
-        if (err instanceof WebpackError) {
-          expect(err).toMatchSnapshot();
+        if (err instanceof TestRunError) {
+          expect(
+            err.errors.map(err =>
+              err.split("\n").filter(line => !line.match(/^\s+at/)).join("\n"),
+            ),
+          ).toMatchSnapshot();
         } else {
           throw err;
         }
