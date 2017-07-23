@@ -8,6 +8,7 @@ import { Stats } from "fs";
 import { loader } from "webpack";
 import {
   DocumentNode,
+  SelectionSetNode,
   DefinitionNode,
   GraphQLSchema,
   IntrospectionQuery,
@@ -22,6 +23,7 @@ interface LoaderOptions {
   schema?: string;
   validate?: boolean;
   output?: OutputTarget;
+  removeUnusedFragments?: boolean;
 }
 
 async function readFile(
@@ -114,6 +116,31 @@ function removeDuplicateFragments(document: DocumentNode) {
   });
 }
 
+function removeUnusedFragments(document: DocumentNode) {
+  const usedFragments = new Set();
+  function findFragmentSpreads(doc: DocumentNode) {
+    function traverse(selectionSet: SelectionSetNode) {
+      selectionSet.selections.forEach(function(selection) {
+        if (selection.kind === "FragmentSpread") {
+          usedFragments.add(selection.name.value);
+        } else if (selection.selectionSet) {
+          traverse(selection.selectionSet);
+        }
+      });
+    }
+    doc.definitions.forEach(function(def) {
+      if (def.kind === "OperationDefinition") {
+        traverse(def.selectionSet);
+      }
+    });
+  }
+  findFragmentSpreads(document);
+  document.definitions = document.definitions.filter(
+    def =>
+      def.kind !== "FragmentDefinition" || usedFragments.has(def.name.value),
+  );
+}
+
 async function loadOptions(loader: loader.LoaderContext) {
   const options: LoaderOptions = { ...loaderUtils.getOptions(loader) };
   let schema: GraphQLSchema | undefined = undefined;
@@ -139,6 +166,7 @@ async function loadOptions(loader: loader.LoaderContext) {
       !options.output || options.output === "string"
         ? "string"
         : "document" as OutputTarget,
+    removeUnusedFragments: options.removeUnusedFragments,
   };
 }
 
@@ -181,21 +209,25 @@ export default async function loader(
 
   let validationErrors: Error[] = [];
   try {
-    const { schema, output: outputTarget } = await loadOptions(this);
+    const options = await loadOptions(this);
 
     const document = await loadSource(this, source);
     removeDuplicateFragments(document);
 
-    if (schema) {
+    if (options.removeUnusedFragments) {
+      removeUnusedFragments(document);
+    }
+
+    if (options.schema) {
       // Validate
-      validationErrors = graphqlValidate(schema, document);
+      validationErrors = graphqlValidate(options.schema, document);
       if (validationErrors.length > 0) {
         validationErrors.forEach(err => this.emitError(err as any));
       }
     }
 
     const output = JSON.stringify(
-      outputTarget === "document" ? document : graphqlPrint(document),
+      options.output === "document" ? document : graphqlPrint(document),
     );
 
     done(null, `module.exports = ${output}`);
