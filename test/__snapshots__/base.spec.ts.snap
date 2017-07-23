@@ -2,7 +2,7 @@
 
 exports[`graphql-loader fail-invalid-document 1`] = `
 Array [
-  "./test/fixtures/fail-invalid-document/query.graphql
+  ".
 Module build failed: GraphQLError: Syntax Error GraphQL request (2:3) Expected Name, found [
 
 1: query X {
@@ -15,7 +15,7 @@ Module build failed: GraphQLError: Syntax Error GraphQL request (2:3) Expected N
 
 exports[`graphql-loader fail-invalid-field 1`] = `
 Array [
-  "./test/fixtures/fail-invalid-field/query.graphql
+  ".
 Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?
 GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?",
 ]
@@ -23,14 +23,14 @@ GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?"
 
 exports[`graphql-loader fail-invalid-schema-path 1`] = `
 Array [
-  "./test/fixtures/fail-invalid-schema-path/query.graphql
-Module build failed: Error: Can't resolve './bad.json' in '/Users/stephen/git/graphql-loader/test/fixtures/fail-invalid-schema-path'",
+  ".
+Module build failed: Error: ENOENT: no such file or directory, open ''",
 ]
 `;
 
 exports[`graphql-loader fail-missing-fragment 1`] = `
 Array [
-  "./test/fixtures/fail-missing-fragment/query.graphql
+  ".
 Unknown fragment \\"Q\\".
 GraphQLError: Unknown fragment \\"Q\\".",
 ]
@@ -38,7 +38,7 @@ GraphQLError: Unknown fragment \\"Q\\".",
 
 exports[`graphql-loader fail-missing-schema-path 1`] = `
 Array [
-  "./test/fixtures/fail-missing-schema-path/query.graphql
+  ".
 Module build failed: Error: schema option must be passed if validate is true",
 ]
 `;

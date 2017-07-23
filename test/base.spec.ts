@@ -21,7 +21,14 @@ describe("graphql-loader", function() {
         if (err instanceof TestRunError) {
           expect(
             err.errors.map(err =>
-              err.split("\n").filter(line => !line.match(/^\s+at/)).join("\n"),
+              // Attempt to filter out file paths and stack trace lines.
+              err
+                .split("\n")
+                .filter(line => !line.match(/^\s+at/))
+                .map(line =>
+                  line.replace(/(\/[A-Za-z0-9-_\.]+)+(:[0-9]+:[0-9]+)?/g, ""),
+                )
+                .join("\n"),
             ),
           ).toMatchSnapshot();
         } else {
