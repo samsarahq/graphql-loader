@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 import { print as graphqlPrint } from "graphql/language/printer";
 import { parse as graphqlParse } from "graphql/language/parser";
 import { validate as graphqlValidate } from "graphql/validation/validate";
+import { resolve } from "path";
 
 import { loader } from "webpack";
 import {
@@ -122,7 +123,7 @@ async function loadOptions(loader: loader.LoaderContext) {
     }
 
     const loaderResolve = pify(loader.resolve);
-    const schemaPath = await loaderResolve(loader.context, options.schema);
+    const schemaPath = await resolve(loader.context, options.schema);
     loader.addDependency(schemaPath);
     const schemaString = await readFile(loader, schemaPath);
     schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
