@@ -15,9 +15,11 @@ import {
 import pify = require("pify");
 import * as loaderUtils from "loader-utils";
 
+type OutputTarget = "string" | "document";
 interface LoaderOptions {
   schema?: string;
   validate?: boolean;
+  output?: OutputTarget;
 }
 
 async function readFile(
@@ -128,6 +130,10 @@ async function loadOptions(loader: loader.LoaderContext) {
 
   return {
     schema,
+    output:
+      !options.output || options.output === "document"
+        ? "document"
+        : "string" as OutputTarget,
   };
 }
 
@@ -143,7 +149,7 @@ export default async function loader(
 
   let validationErrors: Error[] = [];
   try {
-    const { schema } = await loadOptions(this);
+    const { schema, output: outputTarget } = await loadOptions(this);
 
     const document = await loadSource(this, source);
     removeDuplicateFragments(document);
@@ -156,7 +162,11 @@ export default async function loader(
       }
     }
 
-    done(null, "module.exports = " + JSON.stringify(document));
+    const output = JSON.stringify(
+      outputTarget === "document" ? document : graphqlPrint(document),
+    );
+
+    done(null, `module.exports = ${output}`);
   } catch (err) {
     done(err);
   }
