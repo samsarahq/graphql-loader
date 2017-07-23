@@ -12,7 +12,6 @@ import {
   buildClientSchema,
   graphql,
 } from "graphql";
-import * as fs from "fs";
 import pify = require("pify");
 import * as loaderUtils from "loader-utils";
 
@@ -21,8 +20,13 @@ interface LoaderOptions {
   validate?: boolean;
 }
 
-const fsReadFile = pify(fs.readFile);
-async function readFile(filePath: string): Promise<string> {
+async function readFile(
+  loader: loader.LoaderContext,
+  filePath: string,
+): Promise<string> {
+  const fsReadFile: (path: string) => Promise<Buffer> = pify(
+    loader.fs.readFile.bind(loader.fs),
+  );
   const content = await fsReadFile(filePath);
   return content.toString();
 }
@@ -68,7 +72,7 @@ async function extractImports(
   });
 
   const files = await Promise.all(imports);
-  const contents = await Promise.all(files.map(doc => readFile(doc)));
+  const contents = await Promise.all(files.map(doc => readFile(loader, doc)));
 
   const nodes = await Promise.all(
     contents.map(content => loadSource(loader, content)),
@@ -118,7 +122,7 @@ async function loadOptions(loader: loader.LoaderContext) {
     const loaderResolve = pify(loader.resolve);
     const schemaPath = await loaderResolve(loader.context, options.schema);
     loader.addDependency(schemaPath);
-    const schemaString = await readFile(schemaPath);
+    const schemaString = await readFile(loader, schemaPath);
     schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
   }
 
