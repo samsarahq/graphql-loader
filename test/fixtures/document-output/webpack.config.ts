@@ -11,7 +11,7 @@ module.exports = {
         use: [
           {
             loader: loaderPath,
-            options: { output: "string" },
+            options: { output: "document" },
           },
         ],
       },

@@ -118,7 +118,6 @@ async function loadOptions(loader: loader.LoaderContext) {
   const options: LoaderOptions = { ...loaderUtils.getOptions(loader) };
   let schema: GraphQLSchema | undefined = undefined;
   if (options.validate) {
-    // XXX: add a test
     if (!options.schema) {
       throw new Error("schema option must be passed if validate is true");
     }
