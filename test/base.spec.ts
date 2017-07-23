@@ -1,17 +1,16 @@
 import { runFixture, TestRunError } from "./runner";
 
 describe("graphql-loader", function() {
-  Object.entries({
-    "should load a simple query": "simple",
-    "should load an imported fragment": "fragments",
-    "should ignore duplicate an imported fragment":
-      "fragments-common-duplicates",
-    "validates graphql query": "validator",
-    "fails to parse invalid document": "fail-invalid-document",
-    "fails to validate invalid field": "fail-invalid-field",
-    "fails to validate missing fragment": "fail-missing-fragment",
-  }).forEach(([name, fixturePath]) =>
-    it(name, async function() {
+  [
+    "simple",
+    "fragments",
+    "fragments-common-duplicates",
+    "validator",
+    "fail-invalid-document",
+    "fail-invalid-field",
+    "fail-missing-fragment",
+  ].forEach(fixturePath =>
+    it(fixturePath, async function() {
       try {
         const document = await runFixture(fixturePath);
         expect(document).toMatchSnapshot();
