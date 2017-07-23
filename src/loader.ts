@@ -137,9 +137,9 @@ async function loadOptions(loader: loader.LoaderContext) {
   return {
     schema,
     output:
-      !options.output || options.output === "document"
-        ? "document"
-        : "string" as OutputTarget,
+      !options.output || options.output === "string"
+        ? "string"
+        : "document" as OutputTarget,
   };
 }
 
