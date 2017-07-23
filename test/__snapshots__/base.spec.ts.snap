@@ -24,7 +24,7 @@ GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?"
 exports[`graphql-loader fail-invalid-schema-path 1`] = `
 Array [
   ".
-Module build failed: Error: ENOENT: no such file or directory, open ''",
+Module build failed: Error: Could not find schema file '. from any parent of ''",
 ]
 `;
 

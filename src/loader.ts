@@ -2,7 +2,8 @@ import gql from "graphql-tag";
 import { print as graphqlPrint } from "graphql/language/printer";
 import { parse as graphqlParse } from "graphql/language/parser";
 import { validate as graphqlValidate } from "graphql/validation/validate";
-import { resolve } from "path";
+import { resolve, join, dirname } from "path";
+import { Stats } from "fs";
 
 import { loader } from "webpack";
 import {
@@ -123,7 +124,11 @@ async function loadOptions(loader: loader.LoaderContext) {
     }
 
     const loaderResolve = pify(loader.resolve);
-    const schemaPath = await resolve(loader.context, options.schema);
+    const schemaPath = await findSchemaFile(
+      loader,
+      loader.context,
+      options.schema,
+    );
     loader.addDependency(schemaPath);
     const schemaString = await readFile(loader, schemaPath);
     schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
@@ -136,6 +141,33 @@ async function loadOptions(loader: loader.LoaderContext) {
         ? "document"
         : "string" as OutputTarget,
   };
+}
+
+async function findSchemaFile(
+  loader: loader.LoaderContext,
+  context: string,
+  schemaPath: string,
+) {
+  const fsStat: (path: string) => Promise<Stats> = pify(
+    loader.fs.stat.bind(loader.fs),
+  );
+  let currentContext = context;
+  while (true) {
+    const fileName = join(currentContext, schemaPath);
+    try {
+      if ((await fsStat(fileName)).isFile()) {
+        return fileName;
+      }
+    } catch (err) {}
+    const parent = dirname(currentContext);
+    if (parent === currentContext) {
+      // Reached root of the fs, but we still haven't found anything.
+      throw new Error(
+        `Could not find schema file '${schemaPath} from any parent of '${context}'`,
+      );
+    }
+    currentContext = parent;
+  }
 }
 
 export default async function loader(
