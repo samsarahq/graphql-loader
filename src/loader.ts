@@ -106,6 +106,27 @@ function removeDuplicateFragments(document: DocumentNode) {
   });
 }
 
+async function loadOptions(loader: loader.LoaderContext) {
+  const options: LoaderOptions = { ...loaderUtils.getOptions(loader) };
+  let schema: GraphQLSchema | undefined = undefined;
+  if (options.validate) {
+    // XXX: add a test
+    if (!options.schema) {
+      throw new Error("schema option must be passed if validate is true");
+    }
+
+    const loaderResolve = pify(loader.resolve);
+    const schemaPath = await loaderResolve(loader.context, options.schema);
+    loader.addDependency(schemaPath);
+    const schemaString = await readFile(schemaPath);
+    schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
+  }
+
+  return {
+    schema,
+  };
+}
+
 export default async function loader(
   this: loader.LoaderContext,
   source: string,
@@ -116,26 +137,10 @@ export default async function loader(
     throw new Error("Loader does not support synchronous processing");
   }
 
-  const options: LoaderOptions = { ...loaderUtils.getOptions(this) };
-  let schema: GraphQLSchema | undefined = undefined;
-  if (options.validate) {
-    // XXX: add a test
-    if (!options.schema) {
-      this.emitError(
-        new Error("schema option must be passed if validate is true") as any,
-      );
-      return;
-    }
-
-    const loaderResolve = pify(this.resolve);
-    const schemaPath = await loaderResolve(this.context, options.schema);
-    this.addDependency(schemaPath);
-    const schemaString = await readFile(schemaPath);
-    schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
-  }
-
   let validationErrors: Error[] = [];
   try {
+    const { schema } = await loadOptions(this);
+
     const document = await loadSource(this, source);
     removeDuplicateFragments(document);
 
