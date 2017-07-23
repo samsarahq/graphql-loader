@@ -36,6 +36,13 @@ GraphQLError: Unknown fragment \\"Q\\".",
 ]
 `;
 
+exports[`graphql-loader fail-missing-schema-path 1`] = `
+Array [
+  "./test/fixtures/fail-missing-schema-path/query.graphql
+Module build failed: Error: schema option must be passed if validate is true",
+]
+`;
+
 exports[`graphql-loader fragments 1`] = `
 Object {
   "definitions": Array [
