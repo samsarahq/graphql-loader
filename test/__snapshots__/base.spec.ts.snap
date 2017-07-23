@@ -103,6 +103,19 @@ Module build failed: Error: schema option must be passed if validate is true",
 ]
 `;
 
+exports[`graphql-loader filter-unused-fragments 1`] = `
+"query X {
+  y {
+    ...Used
+  }
+}
+
+fragment Used on Y {
+  z
+}
+"
+`;
+
 exports[`graphql-loader fragments 1`] = `
 "query X {
   x

@@ -1,0 +1,7 @@
+fragment Used on Y {
+  z
+}
+
+fragment Unused on Y {
+  z
+}
