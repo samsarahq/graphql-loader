@@ -21,6 +21,13 @@ GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?"
 ]
 `;
 
+exports[`graphql-loader fail-invalid-schema-path 1`] = `
+Array [
+  "./test/fixtures/fail-invalid-schema-path/query.graphql
+Module build failed: Error: Can't resolve './bad.json' in '/Users/stephen/git/graphql-loader/test/fixtures/fail-invalid-schema-path'",
+]
+`;
+
 exports[`graphql-loader fail-missing-fragment 1`] = `
 Array [
   "./test/fixtures/fail-missing-fragment/query.graphql

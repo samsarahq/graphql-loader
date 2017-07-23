@@ -8,6 +8,7 @@ describe("graphql-loader", function() {
     "validator",
     "fail-invalid-document",
     "fail-invalid-field",
+    "fail-invalid-schema-path",
     "fail-missing-fragment",
   ].forEach(fixturePath =>
     it(fixturePath, async function() {
