@@ -321,6 +321,15 @@ Object {
 }
 `;
 
+exports[`graphql-loader simple-string-output 1`] = `
+"query X {
+  x
+  y
+  z
+}
+"
+`;
+
 exports[`graphql-loader validator 1`] = `
 Object {
   "definitions": Array [

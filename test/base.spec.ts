@@ -11,6 +11,7 @@ describe("graphql-loader", function() {
     "fail-invalid-schema-path",
     "fail-missing-fragment",
     "fail-missing-schema-path",
+    "simple-string-output",
   ].forEach(fixturePath =>
     it(fixturePath, async function() {
       try {
