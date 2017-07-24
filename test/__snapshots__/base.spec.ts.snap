@@ -112,6 +112,11 @@ exports[`graphql-loader filter-unused-fragments 1`] = `
 
 fragment Used on Y {
   z
+  ...AlsoUsed
+}
+
+fragment AlsoUsed on Y {
+  z
 }
 "
 `;

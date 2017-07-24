@@ -1,7 +1,16 @@
 fragment Used on Y {
   z
+  ...AlsoUsed
+}
+
+fragment AlsoUsed on Y {
+  z
 }
 
 fragment Unused on Y {
   z
+}
+
+fragment AlsoUnused on Y {
+  ...Unused
 }
