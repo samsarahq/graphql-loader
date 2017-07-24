@@ -1,4 +1,3 @@
-import gql from "graphql-tag";
 import { print as graphqlPrint } from "graphql/language/printer";
 import { parse as graphqlParse } from "graphql/language/parser";
 import { validate as graphqlValidate } from "graphql/validation/validate";
@@ -94,7 +93,7 @@ async function extractImports(
 }
 
 async function loadSource(loader: loader.LoaderContext, source: string) {
-  let document: DocumentNode = gql(source);
+  let document: DocumentNode = graphqlParse(source);
   document = await extractImports(loader, source, document);
   return document;
 }
@@ -114,6 +113,20 @@ function removeDuplicateFragments(document: DocumentNode) {
       return true;
     }
   });
+}
+
+function removeSourceLocations(document: DefinitionNode | DocumentNode) {
+  if (document.loc) {
+    delete document.loc;
+  }
+
+  for (const value of Object.values(document)) {
+    if (Array.isArray(value)) {
+      value.forEach(val => removeSourceLocations(val));
+    } else if (value && typeof value === "object") {
+      removeSourceLocations(value);
+    }
+  }
 }
 
 function removeUnusedFragments(document: DocumentNode) {
@@ -225,6 +238,7 @@ export default async function loader(
 
     const document = await loadSource(this, source);
     removeDuplicateFragments(document);
+    removeSourceLocations(document);
 
     if (options.removeUnusedFragments) {
       removeUnusedFragments(document);
