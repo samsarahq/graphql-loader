@@ -29,7 +29,7 @@
     "pify": "^3.0.0"
   },
   "peerDependencies": {
-    "graphql": "^0.9.1"
+    "graphql": ">=0.9.1"
   },
   "jest": {
     "testMatch": [
