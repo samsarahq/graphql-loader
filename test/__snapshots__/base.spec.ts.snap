@@ -53,10 +53,6 @@ Object {
     },
   ],
   "kind": "Document",
-  "loc": Object {
-    "end": 24,
-    "start": 0,
-  },
 }
 `;
 
