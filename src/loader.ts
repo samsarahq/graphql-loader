@@ -120,11 +120,12 @@ function removeSourceLocations(document: DefinitionNode | DocumentNode) {
     delete document.loc;
   }
 
-  for (const value of Object.values(document)) {
+  for (const key of Object.keys(document)) {
+    const value = (document as { [key: string]: {} })[key];
     if (Array.isArray(value)) {
       value.forEach(val => removeSourceLocations(val));
     } else if (value && typeof value === "object") {
-      removeSourceLocations(value);
+      removeSourceLocations(value as DefinitionNode);
     }
   }
 }
