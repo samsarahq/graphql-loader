@@ -1,6 +1,6 @@
 {
   "name": "webpack-graphql-loader",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "webpack graphql loader",
   "main": "./lib/loader.js",
   "author": "Stephen Wan <stephen@stephenwan.com>",
