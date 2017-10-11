@@ -85,6 +85,7 @@ The loader supports importing `.graphql` files from other `.graphql` files using
 
 query {
   ...a
+  ...b
 }
 ```
 
@@ -93,7 +94,10 @@ query {
 #import "./fragments.graphql"
 
 fragment a on A {}
+fragment b on A {
+  foo(bar: 1)
+}
 ```
 
-In the above example, fragment `a` and `b` will be made available within `query.graphql`. Note that all fragments in the imported file should be used, or the `removeUnusedFragments` can be used.
+In the above example, fragments `a` and `b` will be made available within `query.graphql`. Note that all fragments in the imported file should be used, or the `removeUnusedFragments` can be used.
 
