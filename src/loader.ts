@@ -3,11 +3,15 @@ import { parse as graphqlParse } from "graphql/language/parser";
 import { validate as graphqlValidate } from "graphql/validation/validate";
 import { resolve, join, dirname } from "path";
 import { Stats } from "fs";
+import {
+  removeDuplicateFragments,
+  removeSourceLocations,
+  removeUnusedFragments,
+} from "./transforms";
 
 import { loader } from "webpack";
 import {
   DocumentNode,
-  SelectionSetNode,
   DefinitionNode,
   GraphQLSchema,
   IntrospectionQuery,
@@ -96,75 +100,6 @@ async function loadSource(loader: loader.LoaderContext, source: string) {
   let document: DocumentNode = graphqlParse(source);
   document = await extractImports(loader, source, document);
   return document;
-}
-
-function removeDuplicateFragments(document: DocumentNode) {
-  const usedName = new Set();
-  document.definitions = document.definitions.filter(def => {
-    if (def.kind !== "FragmentDefinition") {
-      return true;
-    }
-
-    const name = def.name.value;
-    if (usedName.has(name)) {
-      return false;
-    } else {
-      usedName.add(name);
-      return true;
-    }
-  });
-}
-
-function removeSourceLocations(document: DefinitionNode | DocumentNode) {
-  if (document.loc) {
-    delete document.loc;
-  }
-
-  for (const key of Object.keys(document)) {
-    const value = (document as { [key: string]: {} })[key];
-    if (Array.isArray(value)) {
-      value.forEach(val => removeSourceLocations(val));
-    } else if (value && typeof value === "object") {
-      removeSourceLocations(value as DefinitionNode);
-    }
-  }
-}
-
-function removeUnusedFragments(document: DocumentNode) {
-  const usedFragments = new Set();
-  function findFragmentSpreads(doc: DocumentNode) {
-    function traverse(selectionSet: SelectionSetNode) {
-      selectionSet.selections.forEach(selection => {
-        if (selection.kind === "FragmentSpread") {
-          usedFragments.add(selection.name.value);
-        } else if (selection.selectionSet) {
-          traverse(selection.selectionSet);
-        }
-      });
-    }
-    doc.definitions.forEach(def => {
-      if (
-        def.kind === "OperationDefinition" ||
-        def.kind === "FragmentDefinition"
-      ) {
-        traverse(def.selectionSet);
-      }
-    });
-  }
-  findFragmentSpreads(document);
-
-  const defCount = document.definitions.length;
-  document.definitions = document.definitions.filter(
-    def =>
-      def.kind !== "FragmentDefinition" || usedFragments.has(def.name.value),
-  );
-
-  if (defCount !== document.definitions.length) {
-    // Some references may have been from fragments that were just recently unused.
-    // If we removed any fragments, run the function again until we are no longer
-    // removing any fragments.
-    removeUnusedFragments(document);
-  }
 }
 
 async function loadOptions(loader: loader.LoaderContext) {
@@ -262,3 +197,9 @@ export default async function loader(
     done(err);
   }
 }
+
+export {
+  removeDuplicateFragments,
+  removeSourceLocations,
+  removeUnusedFragments,
+} from "./transforms";
