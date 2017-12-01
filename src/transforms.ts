@@ -1,4 +1,8 @@
-import { DocumentNode, SelectionSetNode, DefinitionNode } from "graphql";
+import {
+  DocumentNode,
+  SelectionSetNode,
+  DefinitionNode,
+} from "graphql/language/ast";
 
 export function removeDuplicateFragments(document: DocumentNode) {
   const usedName = new Set();
@@ -23,7 +27,7 @@ export function removeSourceLocations(document: DefinitionNode | DocumentNode) {
   }
 
   for (const key of Object.keys(document)) {
-    const value = (document as { [key: string]: {} })[key];
+    const value = (document as any)[key];
     if (Array.isArray(value)) {
       value.forEach(val => removeSourceLocations(val));
     } else if (value && typeof value === "object") {
