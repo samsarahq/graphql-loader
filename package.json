@@ -3,6 +3,7 @@
   "version": "0.0.16",
   "description": "webpack graphql loader",
   "main": "./lib/loader.js",
+  "types": "./lib/loader.d.ts",
   "author": "Stephen Wan <stephen@stephenwan.com>",
   "license": "MIT",
   "scripts": {
