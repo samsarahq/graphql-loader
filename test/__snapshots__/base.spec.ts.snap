@@ -59,7 +59,7 @@ Object {
 exports[`graphql-loader fail-invalid-document 1`] = `
 Array [
   ".
-Module build failed: GraphQLError: Syntax Error GraphQL request (2:3) Expected Name, found [
+Module build failed: GraphQLError: Syntax Error GraphQL (2:3) Expected Name, found [
 
 1: query X {
 2:   []
