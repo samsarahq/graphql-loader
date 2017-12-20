@@ -13,6 +13,7 @@ describe("graphql-loader", function() {
     "fail-missing-schema-path",
     "document-output",
     "filter-unused-fragments",
+    "issue-1-import-from-fragment",
   ].forEach(fixturePath =>
     it(fixturePath, async function() {
       try {
