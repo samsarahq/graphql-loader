@@ -1,0 +1,3 @@
+fragment FragB on B {
+  b
+}

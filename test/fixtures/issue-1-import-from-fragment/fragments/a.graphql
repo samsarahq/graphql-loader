@@ -1,0 +1,6 @@
+#import './b.graphql'
+
+fragment FragA on A {
+  a
+  ...FragB
+}

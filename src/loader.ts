@@ -42,6 +42,7 @@ async function readFile(
 
 async function extractImports(
   loader: loader.LoaderContext,
+  resolveContext: string,
   source: string,
   document: DocumentNode,
 ) {
@@ -68,7 +69,7 @@ async function extractImports(
     const filePath = filePathMatch[1];
     imports.push(
       new Promise((resolve, reject) => {
-        loader.resolve(loader.context, filePath, (err, result) => {
+        loader.resolve(resolveContext, filePath, (err, result) => {
           if (err) {
             reject(err);
           } else {
@@ -81,12 +82,18 @@ async function extractImports(
   });
 
   const files = await Promise.all(imports);
-  const contents = await Promise.all(files.map(doc => readFile(loader, doc)));
-
-  const nodes = await Promise.all(
-    contents.map(content => loadSource(loader, content)),
+  const contents = await Promise.all(
+    files.map(async filePath => [
+      dirname(filePath),
+      await readFile(loader, filePath),
+    ]),
   );
 
+  const nodes = await Promise.all(
+    contents.map(([fileContext, content]) =>
+      loadSource(loader, fileContext, content),
+    ),
+  );
   const fragmentDefinitions = nodes.reduce((defs, node) => {
     defs.push(...node.definitions);
     return defs;
@@ -96,9 +103,13 @@ async function extractImports(
   return document;
 }
 
-async function loadSource(loader: loader.LoaderContext, source: string) {
+async function loadSource(
+  loader: loader.LoaderContext,
+  resolveContext: string,
+  source: string,
+) {
   let document: DocumentNode = graphqlParse(source);
-  document = await extractImports(loader, source, document);
+  document = await extractImports(loader, resolveContext, source, document);
   return document;
 }
 
@@ -172,7 +183,7 @@ export default async function loader(
   try {
     const options = await loadOptions(this);
 
-    const document = await loadSource(this, source);
+    const document = await loadSource(this, this.context, source);
     removeDuplicateFragments(document);
     removeSourceLocations(document);
 

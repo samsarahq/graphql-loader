@@ -6,4 +6,3 @@ node_js:
 sudo: false
 install:
   - yarn install
-  - yarn add graphql
