@@ -150,6 +150,22 @@ fragment B on B {
 "
 `;
 
+exports[`graphql-loader issue-1-import-from-fragment 1`] = `
+"{
+  ...FragA
+}
+
+fragment FragA on A {
+  a
+  ...FragB
+}
+
+fragment FragB on B {
+  b
+}
+"
+`;
+
 exports[`graphql-loader simple 1`] = `
 "query X {
   x
