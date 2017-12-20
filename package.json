@@ -5,6 +5,7 @@
   "main": "./lib/loader.js",
   "types": "./lib/loader.d.ts",
   "author": "Stephen Wan <stephen@stephenwan.com>",
+  "homepage": "https://github.com/stephen/graphql-loader/",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
