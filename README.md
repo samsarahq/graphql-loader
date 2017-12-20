@@ -91,8 +91,6 @@ query {
 
 `fragments.graphql`:
 ```graphql
-#import "./fragments.graphql"
-
 fragment a on A {}
 fragment b on A {
   foo(bar: 1)
