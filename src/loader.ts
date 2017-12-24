@@ -122,7 +122,7 @@ async function loadOptions(loader: loader.LoaderContext) {
     }
 
     const loaderResolve = pify(loader.resolve);
-    const schemaPath = await findSchemaFile(
+    const schemaPath = await findFileInTree(
       loader,
       loader.context,
       options.schema,
@@ -142,7 +142,7 @@ async function loadOptions(loader: loader.LoaderContext) {
   };
 }
 
-async function findSchemaFile(
+async function findFileInTree(
   loader: loader.LoaderContext,
   context: string,
   schemaPath: string,
