@@ -113,16 +113,15 @@ async function loadSource(
   return document;
 }
 
-async function loadOptions(loader: loader.LoaderContext) {
-  const options: LoaderOptions = { ...loaderUtils.getOptions(loader) };
-  let schema: GraphQLSchema | undefined = undefined;
-  if (options.validate) {
-    if (!options.schema) {
-      throw new Error("schema option must be passed if validate is true");
-    }
+async function loadSchema(
+  loader: loader.LoaderContext,
+  options: LoaderOptions,
+): Promise<GraphQLSchema> {
+  let schema = null;
 
+  if (options.schema) {
     const loaderResolve = pify(loader.resolve);
-    const schemaPath = await findSchemaFile(
+    const schemaPath = await findFileInTree(
       loader,
       loader.context,
       options.schema,
@@ -130,6 +129,20 @@ async function loadOptions(loader: loader.LoaderContext) {
     loader.addDependency(schemaPath);
     const schemaString = await readFile(loader, schemaPath);
     schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
+  }
+
+  if (!schema) {
+    throw new Error("schema option must be passed if validate is true");
+  }
+
+  return schema;
+}
+
+async function loadOptions(loader: loader.LoaderContext) {
+  const options: LoaderOptions = { ...loaderUtils.getOptions(loader) };
+  let schema: GraphQLSchema | undefined = undefined;
+  if (options.validate) {
+    schema = await loadSchema(loader, options);
   }
 
   return {
@@ -142,7 +155,12 @@ async function loadOptions(loader: loader.LoaderContext) {
   };
 }
 
-async function findSchemaFile(
+/**
+ * findFileInTree returns the path for the requested file given the current context,
+ * walking up towards the root until it finds the file. If the function fails to find
+ * the file, it will throw an error.
+ */
+async function findFileInTree(
   loader: loader.LoaderContext,
   context: string,
   schemaPath: string,
