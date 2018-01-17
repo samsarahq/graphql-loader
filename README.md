@@ -13,7 +13,7 @@ yarn add --dev webpack-graphql-loader # or npm install --save-dev webpack-graphq
 You will also need to install a copy of [`graphql`](https://www.npmjs.com/package/graphql), which is a peer dependency of this package.
 
 ```bash
-yarn add --dev graphql # or npm install --dev graphql
+yarn add --dev graphql # or npm install --save-dev graphql
 ```
 
 
