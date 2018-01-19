@@ -21,6 +21,13 @@ import {
 import pify = require("pify");
 import * as loaderUtils from "loader-utils";
 
+interface CachedSchema {
+  mtime: number;
+  schema: GraphQLSchema;
+}
+
+let cachedSchema: CachedSchema | null = null;
+
 type OutputTarget = "string" | "document";
 interface LoaderOptions {
   schema?: string;
@@ -137,8 +144,21 @@ async function loadSchema(
       options.schema,
     );
     loader.addDependency(schemaPath);
+
+    const stats = await stat(loader, schemaPath);
+    const lastChangedAt = stats.mtime.getTime();
+
+    // The cached version of the schema is valid as long its modification time has not changed.
+    if (cachedSchema && lastChangedAt <= cachedSchema.mtime) {
+      return cachedSchema.schema;
+    }
+
     const schemaString = await readFile(loader, schemaPath);
     schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
+    cachedSchema = {
+      schema,
+      mtime: lastChangedAt,
+    };
   }
 
   if (!schema) {
