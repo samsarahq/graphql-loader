@@ -21,6 +21,13 @@ import {
 import pify = require("pify");
 import * as loaderUtils from "loader-utils";
 
+interface CachedSchema {
+  mtime: number;
+  schema: GraphQLSchema;
+}
+
+let cachedSchema: CachedSchema | null = null;
+
 type OutputTarget = "string" | "document";
 interface LoaderOptions {
   schema?: string;
@@ -38,6 +45,16 @@ async function readFile(
   );
   const content = await fsReadFile(filePath);
   return content.toString();
+}
+
+async function stat(
+  loader: loader.LoaderContext,
+  filePath: string,
+): Promise<Stats> {
+  const fsStat: (path: string) => Promise<Stats> = pify(
+    loader.fs.stat.bind(loader.fs),
+  );
+  return fsStat(filePath);
 }
 
 async function extractImports(
@@ -127,8 +144,26 @@ async function loadSchema(
       options.schema,
     );
     loader.addDependency(schemaPath);
+
+    const stats = await stat(loader, schemaPath);
+    const lastChangedAt = stats.mtime.getTime();
+
+    // Note that we always read the file before we check the cache. This is to put a
+    // run-to-completion "mutex" around accesses to cachedSchema so that updating the cache is not
+    // deferred for concurrent loads. This should be reasonably inexpensive because the fs
+    // read is already cached by memory-fs.
     const schemaString = await readFile(loader, schemaPath);
+
+    // The cached version of the schema is valid as long its modification time has not changed.
+    if (cachedSchema && lastChangedAt <= cachedSchema.mtime) {
+      return cachedSchema.schema;
+    }
+
     schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
+    cachedSchema = {
+      schema,
+      mtime: lastChangedAt,
+    };
   }
 
   if (!schema) {
@@ -165,14 +200,11 @@ async function findFileInTree(
   context: string,
   schemaPath: string,
 ) {
-  const fsStat: (path: string) => Promise<Stats> = pify(
-    loader.fs.stat.bind(loader.fs),
-  );
   let currentContext = context;
   while (true) {
     const fileName = join(currentContext, schemaPath);
     try {
-      if ((await fsStat(fileName)).isFile()) {
+      if ((await stat(loader, fileName)).isFile()) {
         return fileName;
       }
     } catch (err) {}
