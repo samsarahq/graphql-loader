@@ -40,6 +40,16 @@ async function readFile(
   return content.toString();
 }
 
+async function stat(
+  loader: loader.LoaderContext,
+  filePath: string,
+): Promise<Stats> {
+  const fsStat: (path: string) => Promise<Stats> = pify(
+    loader.fs.stat.bind(loader.fs),
+  );
+  return fsStat(filePath);
+}
+
 async function extractImports(
   loader: loader.LoaderContext,
   resolveContext: string,
@@ -165,14 +175,11 @@ async function findFileInTree(
   context: string,
   schemaPath: string,
 ) {
-  const fsStat: (path: string) => Promise<Stats> = pify(
-    loader.fs.stat.bind(loader.fs),
-  );
   let currentContext = context;
   while (true) {
     const fileName = join(currentContext, schemaPath);
     try {
-      if ((await fsStat(fileName)).isFile()) {
+      if ((await stat(loader, fileName)).isFile()) {
         return fileName;
       }
     } catch (err) {}
