@@ -148,12 +148,17 @@ async function loadSchema(
     const stats = await stat(loader, schemaPath);
     const lastChangedAt = stats.mtime.getTime();
 
+    // Note that we always read the file before we check the cache. This is to put a
+    // run-to-completion "mutex" around accesses to cachedSchema so that updating the cache is not
+    // deferred for concurrent loads. This should be reasonably inexpensive because the fs
+    // read is already cached by memory-fs.
+    const schemaString = await readFile(loader, schemaPath);
+
     // The cached version of the schema is valid as long its modification time has not changed.
     if (cachedSchema && lastChangedAt <= cachedSchema.mtime) {
       return cachedSchema.schema;
     }
 
-    const schemaString = await readFile(loader, schemaPath);
     schema = buildClientSchema(JSON.parse(schemaString) as IntrospectionQuery);
     cachedSchema = {
       schema,
