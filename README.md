@@ -1,7 +1,7 @@
 # GraphQL Loader for Webpack
 
 [![npm Version](https://img.shields.io/npm/v/webpack-graphql-loader.svg)](https://www.npmjs.com/package/webpack-graphql-loader)
-[![Build Status](https://api.travis-ci.org/stephen/graphql-loader.svg?branch=master)](https://travis-ci.org/stephen/graphql-loader)
+[![Build Status](https://api.travis-ci.org/samsarahq/graphql-loader.svg?branch=master)](https://travis-ci.org/samsarahq/graphql-loader)
 
 
 ## Installation
