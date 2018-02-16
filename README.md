@@ -3,6 +3,7 @@
 [![npm Version](https://img.shields.io/npm/v/webpack-graphql-loader.svg)](https://www.npmjs.com/package/webpack-graphql-loader)
 [![Build Status](https://api.travis-ci.org/samsarahq/graphql-loader.svg?branch=master)](https://travis-ci.org/samsarahq/graphql-loader)
 
+A webpack loader for `.graphql` query documents with first class support for **schema validation** and **fragments definitions**. `graphql-loader` works great with [thunder](https://github.com/samsarahq/thunder), [apollo-client](#output-string--document-defaultstring), and anywhere you might want to provide a GraphQL query document in the frontend.
 
 ## Installation
 
@@ -69,11 +70,11 @@ If `true`, the loader will validate the imported document against your specified
 
 #### output _("string" | "document") (default="string")_
 
-Specifies whether or not the imported document should be a printed graphql string, or a graphql DocumentNode AST. The latter is useful for interop with [`graphql-tag`](https://github.com/apollographql/graphql-tag#webpack-preprocessing).
+Specifies whether or not the imported document should be a printed graphql string, or a graphql `DocumentNode` AST. The latter is useful for interop with [`graphql-tag`](https://github.com/apollographql/graphql-tag#webpack-preprocessing).
 
 #### removeUnusedFragments _(boolean) (default=false)_
 
-If `true`, the loader will remove unused fragments from the imported document. This may be useful if a query is importing fragments from a file, but does not use all fragments in that file. Also see [this issue](https://github.com/apollographql/graphql-tag/issues/102). See issue below
+If `true`, the loader will remove unused fragments from the imported document. This may be useful if a query is importing fragments from a file, but does not use all fragments in that file. Also see [this issue](https://github.com/apollographql/graphql-tag/issues/102).
 
 ## Import statements in `.graphql` files
 
@@ -97,5 +98,5 @@ fragment b on A {
 }
 ```
 
-In the above example, fragments `a` and `b` will be made available within `query.graphql`. Note that all fragments in the imported file should be used, or the `removeUnusedFragments` can be used.
+In the above example, fragments `a` and `b` will be made available within `query.graphql`. Note that all fragments in the imported file should be used in the top-level query, or the `removeUnusedFragments` should be specified.
 
