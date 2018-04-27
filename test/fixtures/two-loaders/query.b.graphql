@@ -1,0 +1,5 @@
+query X {
+  y {
+    bar # valid only in b
+  }
+}
