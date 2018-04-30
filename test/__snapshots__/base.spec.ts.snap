@@ -175,6 +175,23 @@ exports[`graphql-loader simple 1`] = `
 "
 `;
 
+exports[`graphql-loader two-loaders 1`] = `
+Object {
+  "a": "query X {
+  y {
+    foo
+  }
+}
+",
+  "b": "query X {
+  y {
+    bar
+  }
+}
+",
+}
+`;
+
 exports[`graphql-loader validator 1`] = `
 "query X {
   y {

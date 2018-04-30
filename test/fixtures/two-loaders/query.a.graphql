@@ -1,0 +1,5 @@
+query X {
+  y {
+    foo # valid only in a
+  }
+}

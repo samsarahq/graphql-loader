@@ -14,6 +14,7 @@ describe("graphql-loader", function() {
     "document-output",
     "filter-unused-fragments",
     "issue-1-import-from-fragment",
+    "two-loaders",
   ].forEach(fixturePath =>
     it(fixturePath, async function() {
       try {
