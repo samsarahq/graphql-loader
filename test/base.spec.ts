@@ -15,6 +15,7 @@ describe("graphql-loader", function() {
     "filter-unused-fragments",
     "issue-1-import-from-fragment",
     "two-loaders",
+    "minify",
   ].forEach(fixturePath =>
     it(fixturePath, async function() {
       try {

@@ -34,6 +34,7 @@ interface LoaderOptions {
   validate?: boolean;
   output?: OutputTarget;
   removeUnusedFragments?: boolean;
+  minify?: boolean;
 }
 
 async function readFile(
@@ -187,6 +188,7 @@ async function loadOptions(loader: loader.LoaderContext) {
         ? "string"
         : "document" as OutputTarget,
     removeUnusedFragments: options.removeUnusedFragments,
+    minify: options.minify,
   };
 }
 
@@ -249,14 +251,21 @@ export default async function loader(
       }
     }
 
-    const output = JSON.stringify(
-      options.output === "document" ? document : graphqlPrint(document),
-    );
+    const content = JSON.stringify(options.output === "document" ? document : graphqlPrint(document));
+    const output = (options.output === "string" && options.minify) ? minifyDocumentString(content) : content;
 
     done(null, `module.exports = ${output}`);
   } catch (err) {
     done(err);
   }
+}
+
+function minifyDocumentString(documentString: string) {
+  return documentString
+        .replace(/#.*/g, '') // remove comments
+        .replace(/\\n/g, ' ') // replace line breaks with space
+        .replace(/\s\s+/g, ' ') // replace consecutive whitespace with one space
+        .replace(/\s*({|}|\(|\)|\.|:|,)\s*/g, '$1'); // remove whitespace before/after operators
 }
 
 export {

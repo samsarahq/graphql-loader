@@ -1,0 +1,10 @@
+ query testQuery ( $q : string! )  { # comment
+  test ( q: $q ) { # comment2 #comment3
+    x
+       y
+ 
+    z
+  }
+}
+
+
