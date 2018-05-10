@@ -166,7 +166,7 @@ fragment FragB on B {
 "
 `;
 
-exports[`graphql-loader minify 1`] = `"query testQuery($q:string!){test(q:$q){x y z}}"`;
+exports[`graphql-loader minify 1`] = `"query testQuery($q:string!,$t:string){test(q:$q,t:$t){x y...Z}}fragment Z on Z{z}"`;
 
 exports[`graphql-loader simple 1`] = `
 "query X {
