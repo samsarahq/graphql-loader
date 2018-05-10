@@ -72,6 +72,10 @@ If `true`, the loader will validate the imported document against your specified
 
 Specifies whether or not the imported document should be a printed graphql string, or a graphql `DocumentNode` AST. The latter is useful for interop with [`graphql-tag`](https://github.com/apollographql/graphql-tag#webpack-preprocessing).
 
+#### minify _(boolean) (default=false)_
+
+If `true` and the `output` option is `string`, the loader will strip comments and whitespace from the graphql document strings.  This helps to reduce bundled code size.
+
 #### removeUnusedFragments _(boolean) (default=false)_
 
 If `true`, the loader will remove unused fragments from the imported document. This may be useful if a query is importing fragments from a file, but does not use all fragments in that file. Also see [this issue](https://github.com/apollographql/graphql-tag/issues/102).

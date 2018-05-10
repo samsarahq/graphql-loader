@@ -1,0 +1,14 @@
+#import "./fragment.graphql"
+
+ query testQuery ( $q : string! , $t:string  )  {  # comment
+  test ( q: $q, t : $t) { # comment #comment
+    x
+    y
+
+    # comment
+    # comment
+      ...Z
+  }
+}
+
+ 
