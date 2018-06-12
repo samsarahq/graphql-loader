@@ -26,7 +26,7 @@ interface CachedSchema {
   schema: GraphQLSchema;
 }
 
-let cachedSchemas: Record<string, CachedSchema> = {}
+let cachedSchemas: Record<string, CachedSchema> = {};
 
 type OutputTarget = "string" | "document";
 interface LoaderOptions {
@@ -156,7 +156,10 @@ async function loadSchema(
     const schemaString = await readFile(loader, schemaPath);
 
     // The cached version of the schema is valid as long its modification time has not changed.
-    if (cachedSchemas[schemaPath] && lastChangedAt <= cachedSchemas[schemaPath].mtime) {
+    if (
+      cachedSchemas[schemaPath] &&
+      lastChangedAt <= cachedSchemas[schemaPath].mtime
+    ) {
       return cachedSchemas[schemaPath].schema;
     }
 
@@ -251,8 +254,13 @@ export default async function loader(
       }
     }
 
-    const content = JSON.stringify(options.output === "document" ? document : graphqlPrint(document));
-    const output = (options.output === "string" && options.minify) ? minifyDocumentString(content) : content;
+    const content = JSON.stringify(
+      options.output === "document" ? document : graphqlPrint(document),
+    );
+    const output =
+      options.output === "string" && options.minify
+        ? minifyDocumentString(content)
+        : content;
 
     done(null, `module.exports = ${output}`);
   } catch (err) {
@@ -262,10 +270,10 @@ export default async function loader(
 
 function minifyDocumentString(documentString: string) {
   return documentString
-        .replace(/#.*/g, '') // remove comments
-        .replace(/\\n/g, ' ') // replace line breaks with space
-        .replace(/\s\s+/g, ' ') // replace consecutive whitespace with one space
-        .replace(/\s*({|}|\(|\)|\.|:|,)\s*/g, '$1'); // remove whitespace before/after operators
+    .replace(/#.*/g, "") // remove comments
+    .replace(/\\n/g, " ") // replace line breaks with space
+    .replace(/\s\s+/g, " ") // replace consecutive whitespace with one space
+    .replace(/\s*({|}|\(|\)|\.|:|,)\s*/g, "$1"); // remove whitespace before/after operators
 }
 
 export {
