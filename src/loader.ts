@@ -17,9 +17,12 @@ import {
   IntrospectionQuery,
   buildClientSchema,
   graphql,
+  Source,
+  OperationDefinitionNode,
 } from "graphql";
 import pify = require("pify");
 import * as loaderUtils from "loader-utils";
+import codegen from "./codegen";
 
 interface CachedSchema {
   mtime: number;
@@ -35,6 +38,14 @@ interface LoaderOptions {
   output?: OutputTarget;
   removeUnusedFragments?: boolean;
   minify?: boolean;
+  codegen?: {
+    typescript: ApolloCodegenTypescriptOptions;
+  };
+}
+
+interface ApolloCodegenTypescriptOptions {
+  passthroughCustomScalars: boolean;
+  customScalarsPrefix: string;
 }
 
 async function readFile(
@@ -126,7 +137,7 @@ async function loadSource(
   resolveContext: string,
   source: string,
 ) {
-  let document: DocumentNode = graphqlParse(source);
+  let document: DocumentNode = graphqlParse(new Source(source, "GraphQL/file"));
   document = await extractImports(loader, resolveContext, source, document);
   return document;
 }
@@ -192,6 +203,7 @@ async function loadOptions(loader: loader.LoaderContext) {
         : "document" as OutputTarget,
     removeUnusedFragments: options.removeUnusedFragments,
     minify: options.minify,
+    codegen: options.codegen,
   };
 }
 
@@ -237,8 +249,17 @@ export default async function loader(
   let validationErrors: Error[] = [];
   try {
     const options = await loadOptions(this);
-
     const document = await loadSource(this, this.context, source);
+
+    let codegenOutput = null;
+    if (options.codegen && options.codegen.typescript) {
+      if (!options.schema) {
+        throw new Error("schema option must be passed if codegen is specified");
+      }
+
+      codegenOutput = codegen(options.schema, document);
+    }
+
     removeDuplicateFragments(document);
     removeSourceLocations(document);
 
@@ -262,7 +283,12 @@ export default async function loader(
         ? minifyDocumentString(content)
         : content;
 
-    done(null, `module.exports = ${output}`);
+    let outputSource = `module.exports = ${output}`;
+    if (codegenOutput) {
+      outputSource = `const documentOutput = ${output};\n${codegenOutput}\nmodule.exports = spec;`;
+    }
+
+    done(null, outputSource);
   } catch (err) {
     done(err);
   }

@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`graphql-loader codegen 1`] = `
+Object {
+  "__esModule": true,
+  "default": Object {
+    "query": "query Films($k: ID!) {
+  film(id: $k) {
+    title
+  }
+}
+",
+  },
+}
+`;
+
 exports[`graphql-loader document-output 1`] = `
 Object {
   "definitions": Array [

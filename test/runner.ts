@@ -13,7 +13,7 @@ export class TestRunError extends Error {
   }
 }
 
-export function runFixture(fixtureName: string): Promise<DocumentNode> {
+export function runFixture(fixtureName: string): Promise<{}> {
   const config = require(path.join(
     __dirname,
     "/fixtures/",
@@ -46,15 +46,17 @@ export function runFixture(fixtureName: string): Promise<DocumentNode> {
 
     compiler.run((err, stats) => {
       if (err) {
+        console.error("Error: ", err.stack);
         reject(err);
       } else {
         if (stats.hasErrors()) {
+          console.error("Webpack Error: ", stats.toJson().errors.join("\n"));
           reject(new TestRunError(stats.toJson().errors));
           return;
         }
 
         const output = fs.readFileSync("/bundle.js").toString() as string;
-        resolve(eval(output) as DocumentNode);
+        resolve(eval(output));
       }
     });
   });

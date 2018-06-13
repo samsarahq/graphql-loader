@@ -2,6 +2,7 @@ import { runFixture, TestRunError } from "./runner";
 
 describe("graphql-loader", function() {
   [
+    "codegen",
     "simple",
     "fragments",
     "fragments-common-duplicates",
