@@ -46,11 +46,9 @@ export function runFixture(fixtureName: string): Promise<{}> {
 
     compiler.run((err, stats) => {
       if (err) {
-        console.error("Error: ", err.stack);
         reject(err);
       } else {
         if (stats.hasErrors()) {
-          console.error("Webpack Error: ", stats.toJson().errors.join("\n"));
           reject(new TestRunError(stats.toJson().errors));
           return;
         }
