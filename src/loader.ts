@@ -2,7 +2,7 @@ import { print as graphqlPrint } from "graphql/language/printer";
 import { parse as graphqlParse } from "graphql/language/parser";
 import { validate as graphqlValidate } from "graphql/validation/validate";
 import { resolve, join, dirname } from "path";
-import { Stats } from "fs";
+import { Stats, writeFile } from "fs";
 import {
   removeDuplicateFragments,
   removeSourceLocations,
@@ -285,7 +285,9 @@ export default async function loader(
 
     let outputSource = `module.exports = ${output}`;
     if (codegenOutput) {
-      outputSource = `const documentOutput = ${output};\n${codegenOutput}\nmodule.exports = spec;`;
+      outputSource = `const documentOutput = ${output};\n${codegenOutput[0]}\nmodule.exports = spec;`;
+      const writeFileP = pify<string, string, void>(writeFile as any);
+      await writeFileP(`${this.resourcePath}.d.ts`, codegenOutput[1]);
     }
 
     done(null, outputSource);

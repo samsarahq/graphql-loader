@@ -8,10 +8,17 @@ import {
   OperationDefinitionNode,
 } from "graphql";
 
+/**
+ * Generate typescript types for the schema and document specified.
+ * @returns [string, string] Returns code generation for webpack
+ * and for a declaration file. The former should be injected by the loader
+ * during compilation and the latter can be emitted to a d.ts file
+ * for IDE help.
+ */
 export default function codegen(
   schema: GraphQLSchema,
   document: DocumentNode,
-): string {
+): [string, string] {
   const context = compileToLegacyIR(schema, document);
   context.options = {
     passthroughCustomScalars: true,
@@ -39,16 +46,28 @@ export default function codegen(
   if (operationDef.variableDefinitions) {
     inputType = `${resultType}Variables`;
   }
-  const operationSpec = `
+
+  const webpackOutput = `
+const spec: Spec<${resultType}, ${inputType}> = {
+  query: documentOutput,
+};
+`;
+
+  const declarationOutput = `
+declare const Dummy: Spec<${resultType}, ${inputType}>;
+export default Dummy;
+`;
+
+  const specType = `
 export interface Spec<Result extends object, Input extends object> {
   query: string;
   result?: Result;
   variables?: Input;
 }
-
-const spec: Spec<${resultType}, ${inputType}> = {
-  query: documentOutput,
-};
 `;
-  return `${types}${operationSpec}`;
+
+  return [
+    `${types}${specType}${webpackOutput}`,
+    `${types}${specType}${declarationOutput}`,
+  ];
 }
