@@ -42,8 +42,11 @@ export default function codegen(
     .charAt(0)
     .toUpperCase()}${operationKind.substring(1)}`;
 
-  let inputType = "{}";
-  if (operationDef.variableDefinitions) {
+  let inputType = "never";
+  if (
+    operationDef.variableDefinitions &&
+    operationDef.variableDefinitions.length > 0
+  ) {
     inputType = `${resultType}Variables`;
   }
 
@@ -68,6 +71,8 @@ export interface Spec<Result extends object, Input extends object> {
 
   return [
     `${types}${specType}${webpackOutput}`,
-    `${types}${specType}${declarationOutput}`,
+    // Remove semicolons, since declaration files do not allow "statements" in
+    // ambient declarations.
+    `${types}${specType}${declarationOutput}`.replace(/;/g, ""),
   ];
 }

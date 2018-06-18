@@ -20,22 +20,22 @@ exports[`codegen codegen 2`] = `
 
 export interface FilmsQueryVariables {
   k: string,
-};
+}
 
 export interface FilmsQuery {
   film:  {
     // The title of this film.
     title: string | null,
   } | null,
-};
-
-export interface Spec<Result extends object, Input extends object> {
-  query: string;
-  result?: Result;
-  variables?: Input;
 }
 
-declare const Dummy: Spec<FilmsQuery, FilmsQueryVariables>;
-export default Dummy;
+export interface Spec<Result extends object, Input extends object> {
+  query: string
+  result?: Result
+  variables?: Input
+}
+
+declare const Dummy: Spec<FilmsQuery, FilmsQueryVariables>
+export default Dummy
 "
 `;
