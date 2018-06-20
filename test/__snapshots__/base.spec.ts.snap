@@ -15,7 +15,6 @@ Object {
         "kind": "SelectionSet",
         "selections": Array [
           Object {
-            "alias": null,
             "arguments": Array [],
             "directives": Array [],
             "kind": "Field",
@@ -23,10 +22,8 @@ Object {
               "kind": "Name",
               "value": "x",
             },
-            "selectionSet": null,
           },
           Object {
-            "alias": null,
             "arguments": Array [],
             "directives": Array [],
             "kind": "Field",
@@ -34,10 +31,8 @@ Object {
               "kind": "Name",
               "value": "y",
             },
-            "selectionSet": null,
           },
           Object {
-            "alias": null,
             "arguments": Array [],
             "directives": Array [],
             "kind": "Field",
@@ -45,7 +40,6 @@ Object {
               "kind": "Name",
               "value": "z",
             },
-            "selectionSet": null,
           },
         ],
       },
@@ -59,13 +53,7 @@ Object {
 exports[`graphql-loader fail-invalid-document 1`] = `
 Array [
   ".
-Module build failed: GraphQLError: Syntax Error GraphQL (2:3) Expected Name, found [
-
-1: query X {
-2:   []
-     ^
-3: }
-",
+Module build failed: GraphQLError: Syntax Error: Expected Name, found [",
 ]
 `;
 

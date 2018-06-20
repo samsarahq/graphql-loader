@@ -13,7 +13,7 @@ export class TestRunError extends Error {
   }
 }
 
-export function runFixture(fixtureName: string): Promise<DocumentNode> {
+export function runFixture(fixtureName: string): Promise<{}> {
   const config = require(path.join(
     __dirname,
     "/fixtures/",
@@ -54,7 +54,7 @@ export function runFixture(fixtureName: string): Promise<DocumentNode> {
         }
 
         const output = fs.readFileSync("/bundle.js").toString() as string;
-        resolve(eval(output) as DocumentNode);
+        resolve(eval(output));
       }
     });
   });

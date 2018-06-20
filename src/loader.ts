@@ -2,7 +2,7 @@ import { print as graphqlPrint } from "graphql/language/printer";
 import { parse as graphqlParse } from "graphql/language/parser";
 import { validate as graphqlValidate } from "graphql/validation/validate";
 import { resolve, join, dirname } from "path";
-import { Stats } from "fs";
+import { Stats, writeFile } from "fs";
 import {
   removeDuplicateFragments,
   removeSourceLocations,
@@ -17,16 +17,19 @@ import {
   IntrospectionQuery,
   buildClientSchema,
   graphql,
+  Source,
+  OperationDefinitionNode,
 } from "graphql";
 import pify = require("pify");
 import * as loaderUtils from "loader-utils";
+import codegen from "./codegen";
 
 interface CachedSchema {
   mtime: number;
   schema: GraphQLSchema;
 }
 
-let cachedSchemas: Record<string, CachedSchema> = {}
+let cachedSchemas: Record<string, CachedSchema> = {};
 
 type OutputTarget = "string" | "document";
 interface LoaderOptions {
@@ -35,6 +38,14 @@ interface LoaderOptions {
   output?: OutputTarget;
   removeUnusedFragments?: boolean;
   minify?: boolean;
+  codegen?: {
+    typescript: ApolloCodegenTypescriptOptions;
+  };
+}
+
+interface ApolloCodegenTypescriptOptions {
+  passthroughCustomScalars: boolean;
+  customScalarsPrefix: string;
 }
 
 async function readFile(
@@ -126,7 +137,7 @@ async function loadSource(
   resolveContext: string,
   source: string,
 ) {
-  let document: DocumentNode = graphqlParse(source);
+  let document: DocumentNode = graphqlParse(new Source(source, "GraphQL/file"));
   document = await extractImports(loader, resolveContext, source, document);
   return document;
 }
@@ -156,7 +167,10 @@ async function loadSchema(
     const schemaString = await readFile(loader, schemaPath);
 
     // The cached version of the schema is valid as long its modification time has not changed.
-    if (cachedSchemas[schemaPath] && lastChangedAt <= cachedSchemas[schemaPath].mtime) {
+    if (
+      cachedSchemas[schemaPath] &&
+      lastChangedAt <= cachedSchemas[schemaPath].mtime
+    ) {
       return cachedSchemas[schemaPath].schema;
     }
 
@@ -189,6 +203,7 @@ async function loadOptions(loader: loader.LoaderContext) {
         : "document" as OutputTarget,
     removeUnusedFragments: options.removeUnusedFragments,
     minify: options.minify,
+    codegen: options.codegen,
   };
 }
 
@@ -234,8 +249,17 @@ export default async function loader(
   let validationErrors: Error[] = [];
   try {
     const options = await loadOptions(this);
-
     const document = await loadSource(this, this.context, source);
+
+    let codegenOutput = null;
+    if (options.codegen && options.codegen.typescript) {
+      if (!options.schema) {
+        throw new Error("schema option must be passed if codegen is specified");
+      }
+
+      codegenOutput = codegen(options.schema, document);
+    }
+
     removeDuplicateFragments(document);
     removeSourceLocations(document);
 
@@ -251,10 +275,22 @@ export default async function loader(
       }
     }
 
-    const content = JSON.stringify(options.output === "document" ? document : graphqlPrint(document));
-    const output = (options.output === "string" && options.minify) ? minifyDocumentString(content) : content;
+    const content = JSON.stringify(
+      options.output === "document" ? document : graphqlPrint(document),
+    );
+    const output =
+      options.output === "string" && options.minify
+        ? minifyDocumentString(content)
+        : content;
 
-    done(null, `module.exports = ${output}`);
+    let outputSource = `module.exports = ${output}`;
+    if (codegenOutput) {
+      outputSource = `const documentOutput = ${output};\n${codegenOutput[0]}\nmodule.exports = spec;`;
+      const writeFileP = pify<string, string, void>(writeFile as any);
+      await writeFileP(`${this.resourcePath}.d.ts`, codegenOutput[1]);
+    }
+
+    done(null, outputSource);
   } catch (err) {
     done(err);
   }
@@ -262,10 +298,10 @@ export default async function loader(
 
 function minifyDocumentString(documentString: string) {
   return documentString
-        .replace(/#.*/g, '') // remove comments
-        .replace(/\\n/g, ' ') // replace line breaks with space
-        .replace(/\s\s+/g, ' ') // replace consecutive whitespace with one space
-        .replace(/\s*({|}|\(|\)|\.|:|,)\s*/g, '$1'); // remove whitespace before/after operators
+    .replace(/#.*/g, "") // remove comments
+    .replace(/\\n/g, " ") // replace line breaks with space
+    .replace(/\s\s+/g, " ") // replace consecutive whitespace with one space
+    .replace(/\s*({|}|\(|\)|\.|:|,)\s*/g, "$1"); // remove whitespace before/after operators
 }
 
 export {

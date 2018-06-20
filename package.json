@@ -1,6 +1,6 @@
 {
   "name": "webpack-graphql-loader",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "webpack graphql loader",
   "main": "./lib/loader.js",
   "types": "./lib/loader.d.ts",
@@ -16,6 +16,9 @@
     "prepublish": "npm run build",
     "test": "jest"
   },
+  "resolutions": {
+    "graphql": "0.13.2"
+  },
   "devDependencies": {
     "@types/graphql": "^0.11.7",
     "@types/jest": "^20.0.4",
@@ -23,20 +26,23 @@
     "@types/memory-fs": "^0.3.0",
     "@types/node": "^8.0.14",
     "@types/webpack": "^3.0.4",
-    "graphql": "0.9.1",
+    "graphql": "0.13.2",
     "jest": "^20.0.4",
     "memory-fs": "^0.4.1",
     "prettier": "^1.5.3",
+    "ts-loader": "3.x",
     "ts-node": "^3.2.0",
-    "typescript": "^2.4.2",
-    "webpack": "^3.3.0"
+    "typescript": "2.6.1",
+    "webpack": "3.8.1"
   },
   "dependencies": {
+    "apollo-codegen": "^0.19.1",
     "loader-utils": "^1.1.0",
     "pify": "^3.0.0"
   },
   "peerDependencies": {
-    "graphql": ">=0.9.1"
+    "graphql": ">=0.11.7",
+    "ts-loader": "^4.4.1"
   },
   "jest": {
     "testMatch": [

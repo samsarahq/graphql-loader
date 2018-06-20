@@ -1,0 +1,5 @@
+query Films($k: ID!) {
+  film(id: $k) {
+    title
+  }
+}
