@@ -29,7 +29,7 @@ export default function codegen(
     def => def.kind === "OperationDefinition",
   ) as OperationDefinitionNode | undefined;
   if (!operationDef) {
-    return types;
+    return [types, types.replace(/;/g, "")];
   }
 
   const operationKind = operationDef.operation;
