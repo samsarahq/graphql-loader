@@ -38,6 +38,7 @@ interface LoaderOptions {
   output?: OutputTarget;
   removeUnusedFragments?: boolean;
   minify?: boolean;
+  emitDefaultExport?: boolean;
   codegen?: {
     typescript: ApolloCodegenTypescriptOptions;
   };
@@ -204,6 +205,7 @@ async function loadOptions(loader: loader.LoaderContext) {
     removeUnusedFragments: options.removeUnusedFragments,
     minify: options.minify,
     codegen: options.codegen,
+    emitDefaultExport: options.emitDefaultExport,
   };
 }
 
@@ -283,9 +285,11 @@ export default async function loader(
         ? minifyDocumentString(content)
         : content;
 
-    let outputSource = `module.exports = ${output}`;
+    const exp = options.emitDefaultExport ? "export default " : "module.exports = ";
+
+    let outputSource = `${exp}${output}`;
     if (codegenOutput) {
-      outputSource = `const documentOutput = ${output};\n${codegenOutput[0]}\nmodule.exports = spec;`;
+      outputSource = `const documentOutput = ${output};\n${codegenOutput[0]}\n${exp}spec;`;
       const writeFileP = pify<string, string, void>(writeFile as any);
       await writeFileP(`${this.resourcePath}.d.ts`, codegenOutput[1]);
     }

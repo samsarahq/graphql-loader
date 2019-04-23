@@ -12,4 +12,15 @@ describe("codegen", function() {
     );
     expect(declarationFile.toString()).toMatchSnapshot();
   });
+
+  it("codegen with default export", async function() {
+    const document = await runFixture("codegen-export-default");
+    expect(document).toMatchSnapshot();
+
+    const declarationFile = await readFileSync(
+      "./test/fixtures/codegen-export-default/query.graphql.d.ts",
+      null,
+    );
+    expect(declarationFile.toString()).toMatchSnapshot();
+  });
 });
