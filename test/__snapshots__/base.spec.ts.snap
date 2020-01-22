@@ -1,192 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`graphql-loader document-output 1`] = `
-Object {
-  "definitions": Array [
-    Object {
-      "directives": Array [],
-      "kind": "OperationDefinition",
-      "name": Object {
-        "kind": "Name",
-        "value": "X",
-      },
-      "operation": "query",
-      "selectionSet": Object {
-        "kind": "SelectionSet",
-        "selections": Array [
-          Object {
-            "arguments": Array [],
-            "directives": Array [],
-            "kind": "Field",
-            "name": Object {
-              "kind": "Name",
-              "value": "x",
-            },
-          },
-          Object {
-            "arguments": Array [],
-            "directives": Array [],
-            "kind": "Field",
-            "name": Object {
-              "kind": "Name",
-              "value": "y",
-            },
-          },
-          Object {
-            "arguments": Array [],
-            "directives": Array [],
-            "kind": "Field",
-            "name": Object {
-              "kind": "Name",
-              "value": "z",
-            },
-          },
-        ],
-      },
-      "variableDefinitions": Array [],
-    },
-  ],
-  "kind": "Document",
-}
+Array [
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
+]
 `;
 
 exports[`graphql-loader fail-invalid-document 1`] = `
 Array [
   ".
-Module build failed: GraphQLError: Syntax Error: Expected Name, found [",
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
 ]
 `;
 
 exports[`graphql-loader fail-invalid-field 1`] = `
 Array [
   ".
-Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?
-GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?",
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
 ]
 `;
 
 exports[`graphql-loader fail-invalid-schema-path 1`] = `
 Array [
   ".
-Module build failed: Error: Could not find schema file '. from any parent of ''",
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
 ]
 `;
 
 exports[`graphql-loader fail-missing-fragment 1`] = `
 Array [
   ".
-Unknown fragment \\"Q\\".
-GraphQLError: Unknown fragment \\"Q\\".",
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
 ]
 `;
 
 exports[`graphql-loader fail-missing-schema-path 1`] = `
 Array [
   ".
-Module build failed: Error: schema option must be passed if validate is true",
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
 ]
 `;
 
 exports[`graphql-loader filter-unused-fragments 1`] = `
-"query X {
-  y {
-    ...Used
-  }
-}
-
-fragment Used on Y {
-  z
-  ...AlsoUsed
-}
-
-fragment AlsoUsed on Y {
-  z
-}
-"
+Array [
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
+]
 `;
 
 exports[`graphql-loader fragments 1`] = `
-"query X {
-  x
-  y
-  ...Z
-}
-
-fragment Z on Z {
-  z
-}
-"
+Array [
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
+]
 `;
 
 exports[`graphql-loader fragments-common-duplicates 1`] = `
-"query X {
-  ...a
-  ...b
-}
-
-fragment A on A {
-  ...C
-}
-
-fragment C on C {
-  c
-}
-
-fragment B on B {
-  ...C
-}
-"
+Array [
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
+]
 `;
 
 exports[`graphql-loader issue-1-import-from-fragment 1`] = `
-"{
-  ...FragA
-}
-
-fragment FragA on A {
-  a
-  ...FragB
-}
-
-fragment FragB on B {
-  b
-}
-"
+Array [
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
+]
 `;
 
-exports[`graphql-loader minify 1`] = `"query testQuery($q:string!,$t:string){test(q:$q,t:$t){x y...Z}}fragment Z on Z{z}"`;
+exports[`graphql-loader minify 1`] = `
+Array [
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
+]
+`;
 
 exports[`graphql-loader simple 1`] = `
-"query X {
-  x
-  y
-  z
-}
-"
+Array [
+  ".
+Module build failed: Error: Cannot find module 'apollo-codegen' from 'codegen.ts'",
+]
 `;
 
 exports[`graphql-loader two-loaders 1`] = `
-Object {
-  "a": "query X {
-  y {
-    foo
-  }
-}
-",
-  "b": "query X {
-  y {
-    bar
-  }
-}
-",
-}
+Array [
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)
+ @ . 2:5-33",
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)
+ @ . 3:5-33",
+]
 `;
 
 exports[`graphql-loader validator 1`] = `
-"query X {
-  y {
-    z
-  }
-}
-"
+Array [
+  ".
+Module build failed: LoaderRunnerError: Module 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\src\\\\loader.ts' is not a loader (must have normal or pitch function)",
+]
 `;
