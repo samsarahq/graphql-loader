@@ -1,5 +1,5 @@
-import { compileToLegacyIR } from "apollo-codegen/lib/compiler/legacyIR";
-import { generateSource } from "apollo-codegen/lib/typescript";
+import { compileToLegacyIR } from "apollo-codegen-core/lib/compiler/legacyIR";
+import { generateSource } from "apollo-codegen-typescript/lib/codeGeneration";
 
 import {
   DocumentNode,

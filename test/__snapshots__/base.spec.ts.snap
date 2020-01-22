@@ -68,7 +68,7 @@ GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?"
 exports[`graphql-loader fail-invalid-schema-path 1`] = `
 Array [
   ".
-Module build failed: Error: Could not find schema file '. from any parent of ''",
+Module build failed: Error: Could not find schema file '. from any parent of 'C:\\\\Users\\\\user\\\\Workspace\\\\graphql-loader\\\\test\\\\fixtures\\\\fail-invalid-schema-path'",
 ]
 `;
 
