@@ -39,5 +39,3 @@ declare module "pify" {
 
   export = promisify;
 }
-
-declare module "apollo-codegen/lib/*";

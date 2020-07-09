@@ -53,13 +53,15 @@ Object {
 exports[`graphql-loader fail-invalid-document 1`] = `
 Array [
   ".
-Module build failed: GraphQLError: Syntax Error: Expected Name, found [",
+Module build failed (from ):
+GraphQLError: Syntax Error: Expected Name, found \\"[\\".",
 ]
 `;
 
 exports[`graphql-loader fail-invalid-field 1`] = `
 Array [
   ".
+Module Error (from ):
 Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?
 GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?",
 ]
@@ -68,13 +70,15 @@ GraphQLError: Cannot query field \\"q\\" on type \\"Y\\". Did you mean \\"z\\"?"
 exports[`graphql-loader fail-invalid-schema-path 1`] = `
 Array [
   ".
-Module build failed: Error: Could not find schema file '. from any parent of ''",
+Module build failed (from ):
+Error: Could not find schema file '. from any parent of ''",
 ]
 `;
 
 exports[`graphql-loader fail-missing-fragment 1`] = `
 Array [
   ".
+Module Error (from ):
 Unknown fragment \\"Q\\".
 GraphQLError: Unknown fragment \\"Q\\".",
 ]
@@ -83,7 +87,8 @@ GraphQLError: Unknown fragment \\"Q\\".",
 exports[`graphql-loader fail-missing-schema-path 1`] = `
 Array [
   ".
-Module build failed: Error: schema option must be passed if validate is true",
+Module build failed (from ):
+Error: schema option must be passed if validate is true",
 ]
 `;
 

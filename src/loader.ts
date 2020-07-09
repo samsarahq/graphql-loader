@@ -22,7 +22,6 @@ import {
 } from "graphql";
 import pify = require("pify");
 import * as loaderUtils from "loader-utils";
-import codegen from "./codegen";
 
 interface CachedSchema {
   mtime: number;
@@ -39,14 +38,6 @@ interface LoaderOptions {
   removeUnusedFragments?: boolean;
   minify?: boolean;
   emitDefaultExport?: boolean;
-  codegen?: {
-    typescript: ApolloCodegenTypescriptOptions;
-  };
-}
-
-interface ApolloCodegenTypescriptOptions {
-  passthroughCustomScalars: boolean;
-  customScalarsPrefix: string;
 }
 
 async function readFile(
@@ -204,7 +195,6 @@ async function loadOptions(loader: loader.LoaderContext) {
         : "document" as OutputTarget,
     removeUnusedFragments: options.removeUnusedFragments,
     minify: options.minify,
-    codegen: options.codegen,
     emitDefaultExport: options.emitDefaultExport,
   };
 }
@@ -253,15 +243,6 @@ export default async function loader(
     const options = await loadOptions(this);
     const document = await loadSource(this, this.context, source);
 
-    let codegenOutput = null;
-    if (options.codegen && options.codegen.typescript) {
-      if (!options.schema) {
-        throw new Error("schema option must be passed if codegen is specified");
-      }
-
-      codegenOutput = codegen(options.schema, document);
-    }
-
     removeDuplicateFragments(document);
     removeSourceLocations(document);
 
@@ -288,11 +269,6 @@ export default async function loader(
     const exp = options.emitDefaultExport ? "export default " : "module.exports = ";
 
     let outputSource = `${exp}${output}`;
-    if (codegenOutput) {
-      outputSource = `const documentOutput = ${output};\n${codegenOutput[0]}\n${exp}spec;`;
-      const writeFileP = pify<string, string, void>(writeFile as any);
-      await writeFileP(`${this.resourcePath}.d.ts`, codegenOutput[1]);
-    }
 
     done(null, outputSource);
   } catch (err) {

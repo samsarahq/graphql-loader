@@ -14,34 +14,29 @@
   "scripts": {
     "build": "tsc",
     "prepublish": "npm test && npm run build",
-    "test": "jest"
-  },
-  "resolutions": {
-    "graphql": "0.13.2"
+    "test": "jest --testEnvironment node"
   },
   "devDependencies": {
-    "@types/graphql": "^0.11.7",
-    "@types/jest": "^20.0.4",
-    "@types/loader-utils": "^1.1.0",
+    "@types/graphql": "^14.5.0",
+    "@types/jest": "^26.0.4",
+    "@types/loader-utils": "^2.0.1",
     "@types/memory-fs": "^0.3.0",
-    "@types/node": "^8.0.14",
-    "@types/webpack": "^3.0.4",
-    "graphql": "0.13.2",
-    "jest": "^20.0.4",
-    "memory-fs": "^0.4.1",
-    "prettier": "^1.5.3",
-    "ts-loader": "3.x",
-    "ts-node": "^3.2.0",
-    "typescript": "2.6.1",
-    "webpack": "3.8.1"
+    "@types/node": "^14.0.20",
+    "@types/webpack": "^4.41.21",
+    "graphql": "^15.3.0",
+    "jest": "^26.1.0",
+    "memory-fs": "^0.5.0",
+    "ts-loader": "^8.0.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6",
+    "webpack": "^4.43.0"
   },
   "dependencies": {
-    "apollo-codegen": "^0.19.1",
-    "loader-utils": "^1.1.0",
-    "pify": "^3.0.0"
+    "loader-utils": "^2.0.0",
+    "pify": "^5.0.0"
   },
   "peerDependencies": {
-    "graphql": ">=0.11.7",
+    "graphql": ">=15.0.0",
     "ts-loader": "^4.4.1"
   },
   "jest": {
