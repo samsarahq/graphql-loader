@@ -42,10 +42,10 @@ interface LoaderOptions {
 
 async function readFile(
   loader: loader.LoaderContext,
-  filePath: string,
+  filePath: string
 ): Promise<string> {
   const fsReadFile: (path: string) => Promise<Buffer> = pify(
-    loader.fs.readFile.bind(loader.fs),
+    loader.fs.readFile.bind(loader.fs)
   );
   const content = await fsReadFile(filePath);
   return content.toString();
@@ -53,10 +53,10 @@ async function readFile(
 
 async function stat(
   loader: loader.LoaderContext,
-  filePath: string,
+  filePath: string
 ): Promise<Stats> {
   const fsStat: (path: string) => Promise<Stats> = pify(
-    loader.fs.stat.bind(loader.fs),
+    loader.fs.stat.bind(loader.fs)
   );
   return fsStat(filePath);
 }
@@ -65,13 +65,13 @@ async function extractImports(
   loader: loader.LoaderContext,
   resolveContext: string,
   source: string,
-  document: DocumentNode,
+  document: DocumentNode
 ) {
   const lines = source.split(/(\r\n|\r|\n)/);
   const loaderResolve = pify(loader.resolve);
 
   const imports: Array<Promise<string>> = [];
-  lines.forEach(line => {
+  lines.forEach((line) => {
     // Find lines that match syntax with `#import "<file>"`
     if (line[0] !== "#") {
       return;
@@ -98,36 +98,39 @@ async function extractImports(
             resolve(result);
           }
         });
-      }),
+      })
     );
   });
 
   const files = await Promise.all(imports);
   const contents = await Promise.all(
-    files.map(async filePath => [
+    files.map(async (filePath) => [
       dirname(filePath),
       await readFile(loader, filePath),
-    ]),
+    ])
   );
 
   const nodes = await Promise.all(
     contents.map(([fileContext, content]) =>
-      loadSource(loader, fileContext, content),
-    ),
+      loadSource(loader, fileContext, content)
+    )
   );
   const fragmentDefinitions = nodes.reduce((defs, node) => {
     defs.push(...node.definitions);
     return defs;
   }, [] as DefinitionNode[]);
 
-  const updatedDocument = { ...document, definitions: [...document.definitions, ...fragmentDefinitions] };
+  const updatedDocument = {
+    ...document,
+    definitions: [...document.definitions, ...fragmentDefinitions],
+  };
   return updatedDocument;
 }
 
 async function loadSource(
   loader: loader.LoaderContext,
   resolveContext: string,
-  source: string,
+  source: string
 ) {
   let document: DocumentNode = graphqlParse(new Source(source, "GraphQL/file"));
   document = await extractImports(loader, resolveContext, source, document);
@@ -136,7 +139,7 @@ async function loadSource(
 
 async function loadSchema(
   loader: loader.LoaderContext,
-  options: LoaderOptions,
+  options: LoaderOptions
 ): Promise<GraphQLSchema> {
   let schema = null;
 
@@ -145,7 +148,7 @@ async function loadSchema(
     const schemaPath = await findFileInTree(
       loader,
       loader.context,
-      options.schema,
+      options.schema
     );
     loader.addDependency(schemaPath);
 
@@ -192,7 +195,7 @@ async function loadOptions(loader: loader.LoaderContext) {
     output:
       !options.output || options.output === "string"
         ? "string"
-        : "document" as OutputTarget,
+        : ("document" as OutputTarget),
     removeUnusedFragments: options.removeUnusedFragments,
     minify: options.minify,
     emitDefaultExport: options.emitDefaultExport,
@@ -207,7 +210,7 @@ async function loadOptions(loader: loader.LoaderContext) {
 async function findFileInTree(
   loader: loader.LoaderContext,
   context: string,
-  schemaPath: string,
+  schemaPath: string
 ) {
   let currentContext = context;
   while (true) {
@@ -221,7 +224,7 @@ async function findFileInTree(
     if (parent === currentContext) {
       // Reached root of the fs, but we still haven't found anything.
       throw new Error(
-        `Could not find schema file '${schemaPath} from any parent of '${context}'`,
+        `Could not find schema file '${schemaPath} from any parent of '${context}'`
       );
     }
     currentContext = parent;
@@ -230,7 +233,7 @@ async function findFileInTree(
 
 export default async function loader(
   this: loader.LoaderContext,
-  source: string,
+  source: string
 ) {
   this.cacheable();
   const done = this.async();
@@ -243,25 +246,29 @@ export default async function loader(
     const sourceDoc = await loadSource(this, this.context, source);
     const dedupedFragDoc = removeDuplicateFragments(sourceDoc);
     const cleanedSourceDoc = removeSourceLocations(dedupedFragDoc);
-    const document = options.removeUnusedFragments ? removeUnusedFragments(cleanedSourceDoc) : cleanedSourceDoc;
+    const document = options.removeUnusedFragments
+      ? removeUnusedFragments(cleanedSourceDoc)
+      : cleanedSourceDoc;
 
     if (options.schema) {
       // Validate
       const validationErrors = graphqlValidate(options.schema, document);
       if (validationErrors && validationErrors.length > 0) {
-        validationErrors.forEach(err => this.emitError(err));
+        validationErrors.forEach((err) => this.emitError(err));
       }
     }
 
     const content = JSON.stringify(
-      options.output === "document" ? document : graphqlPrint(document),
+      options.output === "document" ? document : graphqlPrint(document)
     );
     const output =
       options.output === "string" && options.minify
         ? minifyDocumentString(content)
         : content;
 
-    const exp = options.emitDefaultExport ? "export default " : "module.exports = ";
+    const exp = options.emitDefaultExport
+      ? "export default "
+      : "module.exports = ";
 
     let outputSource = `${exp}${output}`;
 

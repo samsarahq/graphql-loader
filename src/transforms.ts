@@ -6,7 +6,7 @@ import {
 
 export function removeDuplicateFragments(document: DocumentNode): DocumentNode {
   const usedName = new Set();
-  const dedupedDefs = document.definitions.filter(def => {
+  const dedupedDefs = document.definitions.filter((def) => {
     if (def.kind !== "FragmentDefinition") {
       return true;
     }
@@ -24,17 +24,15 @@ export function removeDuplicateFragments(document: DocumentNode): DocumentNode {
 }
 
 export function removeSourceLocations(document: DocumentNode): DocumentNode {
-  let updatedDoc = { ...document }
-  removeFieldDeep(updatedDoc,  'loc')
-  return updatedDoc
+  let updatedDoc = { ...document };
+  removeFieldDeep(updatedDoc, "loc");
+  return updatedDoc;
 }
 
-function removeFieldDeep(obj: { [key: string] : any }, name: string) {
-  for(let field in obj) {
-    if (field === name)
-      delete obj[field];
-    else if (typeof obj[field] === 'object')
-      removeFieldDeep(obj[field], name);
+function removeFieldDeep(obj: { [key: string]: any }, name: string) {
+  for (const field in obj) {
+    if (field === name) delete obj[field];
+    else if (typeof obj[field] === "object") removeFieldDeep(obj[field], name);
   }
 }
 
@@ -42,7 +40,7 @@ export function removeUnusedFragments(document: DocumentNode): DocumentNode {
   const usedFragments = new Set();
   function findFragmentSpreads(doc: DocumentNode) {
     function traverse(selectionSet: SelectionSetNode) {
-      selectionSet.selections.forEach(selection => {
+      selectionSet.selections.forEach((selection) => {
         if (selection.kind === "FragmentSpread") {
           usedFragments.add(selection.name.value);
         } else if (selection.selectionSet) {
@@ -50,7 +48,7 @@ export function removeUnusedFragments(document: DocumentNode): DocumentNode {
         }
       });
     }
-    doc.definitions.forEach(def => {
+    doc.definitions.forEach((def) => {
       if (
         def.kind === "OperationDefinition" ||
         def.kind === "FragmentDefinition"
@@ -63,8 +61,8 @@ export function removeUnusedFragments(document: DocumentNode): DocumentNode {
 
   const defCount = document.definitions.length;
   const cleanedDefs = document.definitions.filter(
-    def =>
-      def.kind !== "FragmentDefinition" || usedFragments.has(def.name.value),
+    (def) =>
+      def.kind !== "FragmentDefinition" || usedFragments.has(def.name.value)
   );
   const updatedDoc = { ...document, definitions: cleanedDefs };
 
