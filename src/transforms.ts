@@ -4,9 +4,9 @@ import {
   DefinitionNode,
 } from "graphql/language/ast";
 
-export function removeDuplicateFragments(document: DocumentNode) {
+export function removeDuplicateFragments(document: DocumentNode): DocumentNode {
   const usedName = new Set();
-  document.definitions = document.definitions.filter(def => {
+  const dedupedDefs = document.definitions.filter(def => {
     if (def.kind !== "FragmentDefinition") {
       return true;
     }
@@ -19,24 +19,26 @@ export function removeDuplicateFragments(document: DocumentNode) {
       return true;
     }
   });
+
+  return { ...document, definitions: dedupedDefs };
 }
 
-export function removeSourceLocations(document: DefinitionNode | DocumentNode) {
-  if (document.loc) {
-    delete document.loc;
-  }
+export function removeSourceLocations(document: DocumentNode): DocumentNode {
+  let updatedDoc = { ...document }
+  removeFieldDeep(updatedDoc,  'loc')
+  return updatedDoc
+}
 
-  for (const key of Object.keys(document)) {
-    const value = (document as any)[key];
-    if (Array.isArray(value)) {
-      value.forEach(val => removeSourceLocations(val));
-    } else if (value && typeof value === "object") {
-      removeSourceLocations(value as DefinitionNode);
-    }
+function removeFieldDeep(obj: { [key: string] : any }, name: string) {
+  for(let field in obj) {
+    if (field === name)
+      delete obj[field];
+    else if (typeof obj[field] === 'object')
+      removeFieldDeep(obj[field], name);
   }
 }
 
-export function removeUnusedFragments(document: DocumentNode) {
+export function removeUnusedFragments(document: DocumentNode): DocumentNode {
   const usedFragments = new Set();
   function findFragmentSpreads(doc: DocumentNode) {
     function traverse(selectionSet: SelectionSetNode) {
@@ -60,15 +62,18 @@ export function removeUnusedFragments(document: DocumentNode) {
   findFragmentSpreads(document);
 
   const defCount = document.definitions.length;
-  document.definitions = document.definitions.filter(
+  const cleanedDefs = document.definitions.filter(
     def =>
       def.kind !== "FragmentDefinition" || usedFragments.has(def.name.value),
   );
+  const updatedDoc = { ...document, definitions: cleanedDefs };
 
-  if (defCount !== document.definitions.length) {
+  if (defCount !== cleanedDefs.length) {
     // Some references may have been from fragments that were just recently unused.
     // If we removed any fragments, run the function again until we are no longer
     // removing any fragments.
-    removeUnusedFragments(document);
+    return removeUnusedFragments(updatedDoc);
   }
+
+  return updatedDoc;
 }

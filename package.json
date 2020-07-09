@@ -17,6 +17,7 @@
     "test": "jest --testEnvironment node"
   },
   "devDependencies": {
+    "@babel/types": "^7.10.4",
     "@types/graphql": "^14.5.0",
     "@types/jest": "^26.0.4",
     "@types/loader-utils": "^2.0.1",

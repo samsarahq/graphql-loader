@@ -120,8 +120,8 @@ async function extractImports(
     return defs;
   }, [] as DefinitionNode[]);
 
-  document.definitions = [...document.definitions, ...fragmentDefinitions];
-  return document;
+  const updatedDocument = { ...document, definitions: [...document.definitions, ...fragmentDefinitions] };
+  return updatedDocument;
 }
 
 async function loadSource(
@@ -238,23 +238,18 @@ export default async function loader(
     throw new Error("Loader does not support synchronous processing");
   }
 
-  let validationErrors: Error[] = [];
   try {
     const options = await loadOptions(this);
-    const document = await loadSource(this, this.context, source);
-
-    removeDuplicateFragments(document);
-    removeSourceLocations(document);
-
-    if (options.removeUnusedFragments) {
-      removeUnusedFragments(document);
-    }
+    const sourceDoc = await loadSource(this, this.context, source);
+    const dedupedFragDoc = removeDuplicateFragments(sourceDoc);
+    const cleanedSourceDoc = removeSourceLocations(dedupedFragDoc);
+    const document = options.removeUnusedFragments ? removeUnusedFragments(cleanedSourceDoc) : cleanedSourceDoc;
 
     if (options.schema) {
       // Validate
-      validationErrors = graphqlValidate(options.schema, document);
-      if (validationErrors.length > 0) {
-        validationErrors.forEach(err => this.emitError(err as any));
+      const validationErrors = graphqlValidate(options.schema, document);
+      if (validationErrors && validationErrors.length > 0) {
+        validationErrors.forEach(err => this.emitError(err));
       }
     }
 
