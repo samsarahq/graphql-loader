@@ -17,28 +17,28 @@
     "test": "jest --testEnvironment node"
   },
   "devDependencies": {
-    "@babel/types": "^7.10.5",
+    "@babel/types": "^7.11.0",
     "@types/graphql": "^14.5.0",
-    "@types/jest": "^26.0.4",
+    "@types/jest": "^26.0.8",
     "@types/loader-utils": "^2.0.1",
     "@types/memory-fs": "^0.3.0",
-    "@types/node": "^14.0.23",
+    "@types/node": "^14.0.27",
     "@types/webpack": "^4.41.21",
     "graphql": "^15.3.0",
-    "jest": "^26.1.0",
+    "jest": "^26.2.2",
     "memory-fs": "^0.5.0",
-    "ts-loader": "^8.0.0",
+    "ts-loader": "^8.0.2",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.6",
-    "webpack": "^4.43.0"
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1"
   },
   "dependencies": {
     "loader-utils": "^2.0.0",
     "pify": "^5.0.0"
   },
   "peerDependencies": {
-    "graphql": ">=14.0.0",
-    "ts-loader": ">=4.0.0"
+    "graphql": "^14.0.0 || ^15.0.0",
+    "ts-loader": "^7.0.0 || ^8.0.0"
   },
   "jest": {
     "testMatch": [
