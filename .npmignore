@@ -2,3 +2,6 @@ node_modules/
 src/
 test/
 .vscode/
+yarn.lock
+.travis.yml
+tsconfig.json
